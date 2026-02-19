@@ -1,0 +1,6 @@
+title: Justin Chen
+description: Thinker, Builder and Trader
+url: "https://cgdjustin1.github.io"
+baseurl: ""
+markdown: kramdown
+permalink: /blog/:title/

@@ -1,0 +1,367 @@
+/* ===========================
+   CSS Variables
+   =========================== */
+:root {
+  --color-bg: #0a192f;
+  --color-bg-card: #112240;
+  --color-text: #ccd6f6;
+  --color-text-muted: #8892b0;
+  --color-text-subtle: #94a3b8;
+  --color-accent: #64ffda;
+  --color-white: #f8fafc;
+  --color-light: #cbd5e1;
+  --font-mono: 'JetBrains Mono', monospace, sans-serif;
+  --font-reading: 'Inter', 'Helvetica Neue', sans-serif;
+  --radius: 10px;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 6px 15px rgba(100, 255, 218, 0.4);
+}
+
+/* ===========================
+   Reset & Global
+   =========================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--color-text-muted);
+}
+
+/* ===========================
+   Header / Nav
+   =========================== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+header h1 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+nav a {
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+nav a.active {
+  color: var(--color-white);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 2px;
+}
+
+.social-links-text {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.social-links-text a {
+  color: var(--color-accent);
+  margin: 0 4px;
+}
+
+/* ===========================
+   Main Content
+   =========================== */
+main {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 24px;
+  margin-top: 40px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+/* ===========================
+   Card Component (shared)
+   =========================== */
+.projects-container,
+.blog-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.project-card,
+.blog-card {
+  background-color: var(--color-bg-card);
+  padding: 20px;
+  width: 300px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-accent);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover,
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.project-card h3,
+.blog-card h3 {
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.project-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.project-card li {
+  margin: 5px 0;
+}
+
+.project-card a,
+.blog-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 2px;
+}
+
+/* ===========================
+   Blog Post Article
+   =========================== */
+.article-wrapper {
+  max-width: 65ch;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.blog-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+}
+
+.blog-header .author,
+.blog-header .date {
+  font-size: 1rem;
+  color: var(--color-text-subtle);
+  margin: 0.2rem 0;
+}
+
+.post {
+  font-family: var(--font-reading);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-subtle);
+}
+
+.post p {
+  margin-bottom: 1.4em;
+  text-align: justify;
+}
+
+.post .intro {
+  font-size: 1.2em;
+  color: var(--color-light);
+  font-weight: 500;
+}
+
+.post strong {
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.post a {
+  color: var(--color-accent);
+  border-bottom: 1px dashed var(--color-accent);
+}
+
+.post h3 {
+  color: var(--color-text);
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.post blockquote {
+  border-left: 3px solid var(--color-accent);
+  margin: 1.5em 0;
+  padding: 0.5em 1em;
+  color: var(--color-light);
+  font-style: italic;
+}
+
+.reference {
+  margin-top: 2em;
+  font-style: italic;
+  color: #7dd3fc;
+}
+
+.back-link {
+  text-align: center;
+  margin: 3rem 0 1rem;
+  font-size: 1rem;
+}
+
+/* ===========================
+   Contact Page
+   =========================== */
+.contact-container {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.contact-container a {
+  color: var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+  padding-bottom: 2px;
+}
+
+.contact-container a:hover {
+  color: var(--color-text-muted);
+}
+
+.social-links {
+  margin-top: 20px;
+}
+
+.social-links a {
+  margin: 0 10px;
+  font-size: 18px;
+}
+
+/* ===========================
+   Blog Nav (for post pages)
+   =========================== */
+.blog-nav {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+}
+
+.blog-nav .divider {
+  margin: 0 8px;
+  color: var(--color-text-muted);
+}
+
+/* ===========================
+   Footer
+   =========================== */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* ===========================
+   Page Transition
+   =========================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+main {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ===========================
+   Responsive
+   =========================== */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 10px;
+  }
+
+  nav a {
+    margin: 10px;
+  }
+
+  .social-links-text {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  main {
+    padding: 60px 10px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  ul li {
+    margin: 6px 0;
+  }
+
+  footer {
+    font-size: 12px;
+  }
+
+  .projects-container,
+  .blog-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-card,
+  .blog-card {
+    width: 90%;
+    padding: 16px;
+  }
+}

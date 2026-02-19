@@ -1,61 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Personal Website of Justin Chen">
-  <title>Justin Chen - Personal Website</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="assets/favicon/favicon.png">
-  <link rel="shortcut icon" href="assets/favicon/favicon.ico">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+---
+layout: default
+title: "Justin Chen - Personal Website"
+description: "Personal Website of Justin Chen"
+---
 
-</head>
+<main>
+  <section>
+    <h2>I am a Thinker, Builder and Trader.</h2>
+    <p>Exploring freedom through mathematics, trading, and technology.</p>
+  </section>
 
-<body>
-
-  <!-- Header 区域 -->
-  <header>
-    <h1>Justin Chen
-
-        <div class="social-links-text">
-            <a href="https://github.com/cgdjustin1" target="_blank">GitHub</a> /
-            <a href="https://www.linkedin.com/in/guanda-chen-809240224" target="_blank">LinkedIn</a> /
-            <a href="mailto:guanda.chenn@gmail.com">Email</a>
-          </div>
-</h1>
-    <nav>
-      <a href="about.html">About</a>
-      <a href="projects.html">Projects</a>
-      <a href="blog.html">Blog</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
-  
-
-  <!-- Hero 区域：一句话介绍 -->
-  <main>
-    <section>
-      <h2>I am a Thinker, Builder and Trader.</h2>
-      <p>Exploring freedom through mathematics, trading, and technology.</p>
-    </section>
-
-    <!-- 引导跳转 -->
-    <section>
-      <h3>Explore More</h3>
-      <ul>
-        <li><a href="about.html">About Me</a></li>
-        <li><a href="projects.html">My Projects</a></li>
-        <li><a href="blog.html">My Blog</a></li>
-        
-      </ul>
-    </section>
-  </main>
-
-  <!-- Footer 区域 -->
-  <footer>
-    <p>© 2025 Justin Chen. All Rights Reserved.</p>
-  </footer>
-
-</body>
-</html>
+  <section>
+    <h3>Explore More</h3>
+    <ul>
+      <li><a href="{{ '/about.html' | relative_url }}">About Me</a></li>
+      <li><a href="{{ '/projects.html' | relative_url }}">My Projects</a></li>
+      <li><a href="{{ '/blog.html' | relative_url }}">My Blog</a></li>
+    </ul>
+  </section>
+</main>
