@@ -4,14 +4,14 @@
 :root {
   --color-bg: #fafafa;
   --color-bg-card: #ffffff;
-  --color-text: #1a1a1a;
-  --color-text-muted: #6b7280;
-  --color-text-subtle: #4b5563;
-  --color-accent: #2563eb;
+  --color-text: #1d1d1f;
+  --color-text-muted: #6e6e73;
+  --color-text-subtle: #48484a;
+  --color-accent: #0066cc;
   --color-border: #e5e7eb;
-  --color-hover-bg: #f3f4f6;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --color-hover-bg: #f5f5f7;
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
   --radius: 8px;
   --max-width: 640px;
 }
@@ -40,7 +40,7 @@ a:hover {
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.15);
+  background: rgba(0, 102, 204, 0.12);
 }
 
 /* ===========================
@@ -59,6 +59,7 @@ header h1 {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
+  font-family: var(--font-mono);
 }
 
 header h1 a {
@@ -103,11 +104,13 @@ h2 {
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 8px;
+  font-family: var(--font-mono);
 }
 
 h3 {
   font-size: 20px;
   margin-top: 32px;
+  font-family: var(--font-sans);
 }
 
 /* ===========================
@@ -129,12 +132,16 @@ h3 {
 }
 
 .hero-name {
-  font-size: 42px;
-  color: var(--color-text);
+  font-size: 48px;
   margin: 0 0 4px;
-  line-height: 1.15;
+  line-height: 1.1;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  font-family: var(--font-mono);
+  background: linear-gradient(135deg, #1d1d1f 0%, #2d3a8c 50%, #6e3fae 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-tagline {
@@ -154,14 +161,16 @@ h3 {
 }
 
 .hero-links {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--color-text-muted);
+  font-family: var(--font-mono);
 }
 
 .hero-links a {
   color: var(--color-text-muted);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .hero-links a:hover {
@@ -193,6 +202,7 @@ h3 {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
+  font-family: var(--font-mono);
   transition: opacity 0.2s;
 }
 
@@ -207,6 +217,7 @@ h3 {
   color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 500;
+  font-family: var(--font-mono);
 }
 
 .btn-secondary:hover {
@@ -240,15 +251,16 @@ h3 {
 }
 
 .blog-year {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   margin-top: 40px;
   margin-bottom: 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-mono);
 }
 
 .blog-year:first-of-type {
@@ -292,6 +304,7 @@ h3 {
   margin: 0;
   font-weight: 500;
   line-height: 1.4;
+  font-family: var(--font-sans);
 }
 
 .blog-entry-content p {
@@ -335,6 +348,7 @@ h3 {
   margin: 0 0 8px;
   font-size: 18px;
   font-weight: 600;
+  font-family: var(--font-mono);
 }
 
 .project-card p {
@@ -354,17 +368,20 @@ h3 {
 }
 
 .project-card li {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-muted);
   background: var(--color-hover-bg);
   padding: 4px 10px;
   border-radius: 4px;
   margin: 0;
+  font-family: var(--font-mono);
 }
 
 .project-card a {
   font-size: 14px;
   font-weight: 500;
+  margin-right: 16px;
+  font-family: var(--font-mono);
 }
 
 /* ===========================
@@ -391,6 +408,7 @@ h3 {
   margin-bottom: 8px;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  font-family: var(--font-mono);
 }
 
 .blog-header .author {
@@ -403,6 +421,7 @@ h3 {
   font-size: 14px;
   color: var(--color-text-muted);
   margin: 4px 0 0;
+  font-family: var(--font-mono);
 }
 
 .post {
@@ -430,7 +449,7 @@ h3 {
 
 .post a {
   color: var(--color-accent);
-  border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+  border-bottom: 1px solid rgba(0, 102, 204, 0.3);
 }
 
 .post a:hover {
@@ -443,6 +462,7 @@ h3 {
   font-size: 20px;
   text-align: left;
   margin-top: 2em;
+  font-family: var(--font-mono);
 }
 
 .post blockquote {
@@ -466,6 +486,7 @@ h3 {
   font-size: 15px;
   padding-top: 1.5rem;
   border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
 }
 
 .back-link a {
@@ -494,6 +515,7 @@ main section h3 {
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
 }
 
 main section p {
@@ -542,11 +564,12 @@ main section li {
 footer {
   text-align: center;
   padding: 24px 20px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
   max-width: var(--max-width);
   margin: 0 auto;
+  font-family: var(--font-mono);
 }
 
 /* ===========================
@@ -581,7 +604,7 @@ main, main.hero {
   }
 
   .hero-name {
-    font-size: 32px;
+    font-size: 36px;
   }
 
   .hero-tagline {
