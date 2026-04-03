@@ -4,6 +4,7 @@ title: "我们这代人该做什么？"
 date: 2023-06-30
 author: "Justin Chen"
 description: "试着理解我们为什么在做现在正在做的事。"
+tags: [thinking]
 lang: zh
 ---
 

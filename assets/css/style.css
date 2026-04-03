@@ -321,6 +321,31 @@ h3 {
   white-space: nowrap;
 }
 
+/* Tags */
+.post-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.post-tags a,
+.tag-pill {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  background: rgba(0, 102, 204, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.post-tags a:hover {
+  background: rgba(0, 102, 204, 0.15);
+  opacity: 1;
+}
+
 /* ===========================
    Card Component (Projects)
    =========================== */

@@ -4,6 +4,7 @@ title: "巴萨罗那之旅"
 date: 2023-12-17
 author: "Justin Chen"
 description: "一段关于旅行、建筑、自然与思考的故事。"
+tags: [life]
 lang: zh
 ---
 

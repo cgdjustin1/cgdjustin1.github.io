@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<main class="blog-list-wrapper">
+  <h2>{{ page.tag }}</h2>
+  <p class="blog-subtitle">{{ page.description }}</p>
+
+  <div class="blog-timeline">
+    {% assign tagged_posts = site.tags[page.tag] %}
+    {% if tagged_posts.size > 0 %}
+      {% for post in tagged_posts %}
+      <a href="{{ post.url | relative_url }}" class="blog-entry">
+        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <div class="blog-entry-content">
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.description }}</p>
+        </div>
+        <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
+      </a>
+      {% endfor %}
+    {% else %}
+      <p style="color: var(--color-text-muted); padding: 20px 8px;">No posts yet. Stay tuned.</p>
+    {% endif %}
+  </div>
+</main>

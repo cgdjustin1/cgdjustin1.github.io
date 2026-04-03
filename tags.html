@@ -1,0 +1,26 @@
+---
+layout: default
+title: "Tags - Justin Chen"
+description: "Browse posts by tag."
+permalink: /tags/
+---
+
+<main class="blog-list-wrapper">
+  <h2>Tags</h2>
+
+  {% assign sorted_tags = site.tags | sort %}
+  {% for tag in sorted_tags %}
+  <div class="blog-year" id="{{ tag[0] }}">{{ tag[0] }}</div>
+  <div class="blog-timeline">
+    {% for post in tag[1] %}
+    <a href="{{ post.url | relative_url }}" class="blog-entry">
+      <time>{{ post.date | date: "%b %d, %Y" }}</time>
+      <div class="blog-entry-content">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.description }}</p>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</main>
