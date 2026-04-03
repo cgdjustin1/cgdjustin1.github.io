@@ -32,7 +32,11 @@ I assemble strategies like LEGO — mix and match modules to build and test new 
 
 ## Results
 
-After all that exploration, the strategies I arrived at are doing roughly 25% annualized returns, validated across 15 years of historical data. I'm running them live with my own money right now.
+After all that exploration, the strategies I arrived at are doing roughly 25% annualized returns, validated across 13 years of historical data. I'm running them live with my own money right now.
+
+![Portfolio backtest comparison](/assets/images/atb-portfolio.png)
+
+*Past performance does not guarantee future results. Backtested over 13 years of historical data.*
 
 ## Where it stands
 
