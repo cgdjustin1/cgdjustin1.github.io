@@ -1,6 +1,6 @@
 title: Justin Chen
 description: Thinker, Builder and Trader
-url: "https://cgdjustin.xyz" 
+url: "http://cgdjustin.xyz"
 baseurl: ""
 markdown: kramdown
 permalink: /blog/:title/
