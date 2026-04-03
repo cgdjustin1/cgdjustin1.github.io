@@ -321,6 +321,60 @@ h3 {
   white-space: nowrap;
 }
 
+/* ===========================
+   Project Page
+   =========================== */
+.project-page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  text-align: left;
+}
+
+.project-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.project-desc {
+  font-size: 17px;
+  color: var(--color-text-subtle);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.project-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.project-links a {
+  font-size: 14px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+.project-blog-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.project-blog-section h2 {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
 /* Tags */
 .post-tags {
   display: flex;
@@ -368,12 +422,29 @@ h3 {
   border-color: var(--color-text-muted);
 }
 
+a.project-card {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+a.project-card:hover {
+  opacity: 1;
+}
+
 .project-card h3 {
   color: var(--color-text);
   margin: 0 0 8px;
   font-size: 18px;
   font-weight: 600;
   font-family: var(--font-mono);
+}
+
+.project-card-cta {
+  font-size: 14px;
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  font-weight: 500;
 }
 
 .project-card p {

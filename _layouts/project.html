@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<main class="project-page">
+  <header class="project-header">
+    <h1>{{ page.title }}</h1>
+    <p class="project-desc">{{ page.description }}</p>
+    {% if page.links %}
+    <div class="project-links">
+      {% for link in page.links %}
+      <a href="{{ link.url }}" target="_blank">{{ link.label }} →</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <article class="post">
+    {{ content }}
+  </article>
+
+  {% assign tagged_posts = site.tags[page.tag] %}
+  {% if tagged_posts.size > 0 %}
+  <section class="project-blog-section">
+    <h2>Blog Posts</h2>
+    <div class="blog-timeline">
+      {% for post in tagged_posts %}
+      <a href="{{ post.url | relative_url }}" class="blog-entry">
+        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <div class="blog-entry-content">
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.description }}</p>
+        </div>
+        <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</main>
