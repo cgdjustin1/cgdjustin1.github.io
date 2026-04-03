@@ -11,9 +11,9 @@
   </h1>
   <nav>
     <a href="{{ '/' | relative_url }}"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Home</a>
-    <a href="{{ '/about.html' | relative_url }}"{% if page.url == '/about.html' %} class="active"{% endif %}>About</a>
-    <a href="{{ '/projects.html' | relative_url }}"{% if page.url == '/projects.html' %} class="active"{% endif %}>Projects</a>
-    <a href="{{ '/blog.html' | relative_url }}"{% if page.url == '/blog.html' %} class="active"{% endif %}>Blog</a>
-    <a href="{{ '/contact.html' | relative_url }}"{% if page.url == '/contact.html' %} class="active"{% endif %}>Contact</a>
+    <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a>
+    <a href="{{ '/projects/' | relative_url }}"{% if page.url contains '/projects' %} class="active"{% endif %}>Projects</a>
+    <a href="{{ '/blog/' | relative_url }}"{% if page.url contains '/blog' %} class="active"{% endif %}>Blog</a>
+    <a href="{{ '/contact/' | relative_url }}"{% if page.url contains '/contact' %} class="active"{% endif %}>Contact</a>
   </nav>
 </header>
