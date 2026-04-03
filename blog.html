@@ -1,19 +1,22 @@
 ---
 layout: default
 title: "Blog - Justin Chen"
-description: "Justin Chen's Blog"
+description: "Thoughts on life, technology, and building things."
 ---
 
-<main>
-  <h2>My Blog</h2>
+<main class="blog-list-wrapper">
+  <h2>Blog</h2>
+  <p class="blog-subtitle">Thoughts on life, technology, and building things.</p>
 
-  <div class="blog-container">
+  <div class="blog-timeline">
     {% for post in site.posts %}
-    <div class="blog-card">
-      <h3>{{ post.title }}</h3>
-      <p>{{ post.description }}</p>
-      <a href="{{ post.url | relative_url }}">Read More</a>
-    </div>
+    <a href="{{ post.url | relative_url }}" class="blog-entry">
+      <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+      <div class="blog-entry-content">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.description }}</p>
+      </div>
+    </a>
     {% endfor %}
   </div>
 </main>

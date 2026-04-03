@@ -109,6 +109,91 @@ li {
 }
 
 /* ===========================
+   Hero (Home)
+   =========================== */
+.hero {
+  text-align: left;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 80px 20px 120px;
+}
+
+.hero-greeting {
+  font-size: 16px;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+}
+
+.hero-name {
+  font-size: 56px;
+  color: var(--color-white);
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+
+.hero-tagline {
+  font-size: 36px;
+  color: var(--color-text-muted);
+  margin: 0 0 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.hero-bio {
+  font-size: 17px;
+  color: var(--color-text-subtle);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 32px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: rgba(100, 255, 218, 0.1);
+  color: var(--color-accent);
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 12px 28px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.btn-secondary:hover {
+  color: var(--color-accent);
+}
+
+/* ===========================
+   Page Subtitle
+   =========================== */
+.page-subtitle,
+.blog-subtitle {
+  color: var(--color-text-muted);
+  font-size: 16px;
+  margin-top: -12px;
+  margin-bottom: 32px;
+}
+
+/* ===========================
    Card Component (shared)
    =========================== */
 .projects-container,
@@ -159,6 +244,67 @@ li {
   color: var(--color-accent);
   border-bottom: 1px solid var(--color-accent);
   padding-bottom: 2px;
+}
+
+/* ===========================
+   Blog Timeline List
+   =========================== */
+.blog-list-wrapper {
+  max-width: 650px;
+  margin: 0 auto;
+  text-align: left;
+  padding: 60px 20px 100px;
+}
+
+.blog-list-wrapper h2 {
+  text-align: left;
+}
+
+.blog-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.blog-entry {
+  display: flex;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(136, 146, 176, 0.15);
+  text-decoration: none;
+  transition: background 0.2s;
+  align-items: flex-start;
+}
+
+.blog-entry:hover {
+  background: rgba(100, 255, 218, 0.03);
+}
+
+.blog-entry time {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  padding-top: 3px;
+  min-width: 100px;
+}
+
+.blog-entry-content h3 {
+  font-size: 18px;
+  color: var(--color-white);
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.blog-entry-content p {
+  font-size: 15px;
+  color: var(--color-text-subtle);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.blog-entry:hover .blog-entry-content h3 {
+  color: var(--color-accent);
 }
 
 /* ===========================
@@ -343,6 +489,27 @@ main {
 
   h3 {
     font-size: 16px;
+  }
+
+  .hero-name {
+    font-size: 36px;
+  }
+
+  .hero-tagline {
+    font-size: 24px;
+  }
+
+  .hero {
+    padding: 40px 20px 60px;
+  }
+
+  .blog-entry {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .blog-entry time {
+    min-width: auto;
   }
 
   ul li {

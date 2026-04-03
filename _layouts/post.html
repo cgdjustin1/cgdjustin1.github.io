@@ -5,7 +5,7 @@ layout: default
   <header class="blog-header">
     <h1>{{ page.title }}</h1>
     <p class="author">{{ page.author | default: "Justin Chen" }}</p>
-    <p class="date">{{ page.date | date: "%Y-%m-%d" }}</p>
+    <p class="date">{{ page.date | date: "%B %d, %Y" }} · {% assign words = content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min read</p>
   </header>
 
   <article class="post">
@@ -13,6 +13,6 @@ layout: default
   </article>
 
   <div class="back-link">
-    <a href="{{ '/blog.html' | relative_url }}">&larr; Back to Blog</a>
+    <a href="{{ '/blog/' | relative_url }}">← Back to Blog</a>
   </div>
 </main>
