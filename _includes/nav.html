@@ -1,19 +1,10 @@
 <header>
   <h1>
-    <a href="{{ '/' | relative_url }}" style="color: inherit; text-decoration: none;">Justin Chen</a>
-    {% if page.url == '/' or page.url == '/index.html' %}
-    <div class="social-links-text">
-      <a href="https://github.com/cgdjustin1" target="_blank">GitHub</a> /
-      <a href="https://www.linkedin.com/in/guanda-chen-809240224" target="_blank">LinkedIn</a> /
-      <a href="mailto:guanda.chenn@gmail.com">Email</a>
-    </div>
-    {% endif %}
+    <a href="/">Justin Chen</a>
   </h1>
   <nav>
-    <a href="{{ '/' | relative_url }}"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Home</a>
-    <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a>
-    <a href="{{ '/projects/' | relative_url }}"{% if page.url contains '/projects' %} class="active"{% endif %}>Projects</a>
-    <a href="{{ '/blog/' | relative_url }}"{% if page.url contains '/blog' %} class="active"{% endif %}>Blog</a>
-    <a href="{{ '/contact/' | relative_url }}"{% if page.url contains '/contact' %} class="active"{% endif %}>Contact</a>
+    <a href="/blog/"{% if page.url contains '/blog' %} class="active"{% endif %}>Blog</a>
+    <a href="/projects/"{% if page.url contains '/projects' %} class="active"{% endif %}>Projects</a>
+    <a href="/about/"{% if page.url contains '/about' %} class="active"{% endif %}>About</a>
   </nav>
 </header>

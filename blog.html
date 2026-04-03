@@ -8,15 +8,20 @@ description: "Thoughts on life, technology, and building things."
   <h2>Blog</h2>
   <p class="blog-subtitle">Thoughts on life, technology, and building things.</p>
 
+  {% assign postsByYear = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+  {% for year in postsByYear %}
+  <div class="blog-year">{{ year.name }}</div>
   <div class="blog-timeline">
-    {% for post in site.posts %}
+    {% for post in year.items %}
     <a href="{{ post.url | relative_url }}" class="blog-entry">
-      <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+      <time>{{ post.date | date: "%b %d" }}</time>
       <div class="blog-entry-content">
         <h3>{{ post.title }}</h3>
         <p>{{ post.description }}</p>
       </div>
+      <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
     </a>
     {% endfor %}
   </div>
+  {% endfor %}
 </main>

@@ -2,19 +2,18 @@
    CSS Variables
    =========================== */
 :root {
-  --color-bg: #0a192f;
-  --color-bg-card: #112240;
-  --color-text: #ccd6f6;
-  --color-text-muted: #8892b0;
-  --color-text-subtle: #94a3b8;
-  --color-accent: #64ffda;
-  --color-white: #f8fafc;
-  --color-light: #cbd5e1;
-  --font-mono: 'JetBrains Mono', monospace, sans-serif;
-  --font-reading: 'Inter', 'Helvetica Neue', sans-serif;
-  --radius: 10px;
-  --shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 6px 15px rgba(100, 255, 218, 0.4);
+  --color-bg: #fafafa;
+  --color-bg-card: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-text-subtle: #4b5563;
+  --color-accent: #2563eb;
+  --color-border: #e5e7eb;
+  --color-hover-bg: #f3f4f6;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --radius: 8px;
+  --max-width: 640px;
 }
 
 /* ===========================
@@ -23,20 +22,25 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   background-color: var(--color-bg);
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: var(--color-accent);
   text-decoration: none;
-  transition: color 0.3s;
+  transition: opacity 0.2s;
 }
 
 a:hover {
-  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.15);
 }
 
 /* ===========================
@@ -46,66 +50,64 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 24px 20px;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 header h1 {
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 600;
   margin: 0;
 }
 
 header h1 a {
-  color: inherit;
+  color: var(--color-text);
   text-decoration: none;
 }
 
+header h1 a:hover {
+  opacity: 0.7;
+}
+
 nav a {
-  margin-left: 20px;
-  font-size: 16px;
+  margin-left: 24px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+  font-weight: 400;
 }
 
-nav a.active {
-  color: var(--color-white);
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 2px;
-}
-
-.social-links-text {
-  margin-top: 8px;
-  font-size: 14px;
+nav a:hover {
   color: var(--color-text);
 }
 
-.social-links-text a {
-  color: var(--color-accent);
-  margin: 0 4px;
+nav a.active {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.social-links-text {
+  display: none;
 }
 
 /* ===========================
    Main Content
    =========================== */
 main {
-  text-align: center;
-  padding: 100px 20px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 20px 80px;
 }
 
 h2 {
-  font-size: 32px;
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
 h3 {
-  font-size: 24px;
-  margin-top: 40px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin: 10px 0;
+  font-size: 20px;
+  margin-top: 32px;
 }
 
 /* ===========================
@@ -113,73 +115,99 @@ li {
    =========================== */
 .hero {
   text-align: left;
-  max-width: 700px;
+  padding: 60px 20px 40px;
+  max-width: var(--max-width);
   margin: 0 auto;
-  padding: 80px 20px 120px;
 }
 
 .hero-greeting {
-  font-size: 16px;
-  color: var(--color-accent);
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
   font-family: var(--font-mono);
+  font-weight: 400;
 }
 
 .hero-name {
-  font-size: 56px;
-  color: var(--color-white);
-  margin: 0 0 8px;
-  line-height: 1.1;
+  font-size: 42px;
+  color: var(--color-text);
+  margin: 0 0 4px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .hero-tagline {
-  font-size: 36px;
+  font-size: 20px;
   color: var(--color-text-muted);
-  margin: 0 0 24px;
+  margin: 0 0 20px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 .hero-bio {
-  font-size: 17px;
+  font-size: 16px;
   color: var(--color-text-subtle);
   line-height: 1.7;
   max-width: 520px;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
+}
+
+.hero-links {
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.hero-links a {
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 1px;
+}
+
+.hero-links a:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+  opacity: 1;
+}
+
+.hero-links .sep {
+  margin: 0 8px;
+  color: var(--color-border);
 }
 
 .hero-cta {
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  margin-top: 28px;
 }
 
 .btn-primary {
   display: inline-block;
-  padding: 12px 28px;
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
-  border-radius: 4px;
-  font-family: var(--font-mono);
+  padding: 10px 24px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-radius: 6px;
   font-size: 14px;
-  transition: background 0.3s;
+  font-weight: 500;
+  transition: opacity 0.2s;
 }
 
 .btn-primary:hover {
-  background: rgba(100, 255, 218, 0.1);
-  color: var(--color-accent);
+  opacity: 0.8;
+  color: var(--color-bg);
 }
 
 .btn-secondary {
   display: inline-block;
-  padding: 12px 28px;
+  padding: 10px 24px;
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
   font-size: 14px;
-  transition: color 0.3s;
+  font-weight: 500;
 }
 
 .btn-secondary:hover {
-  color: var(--color-accent);
+  color: var(--color-text);
+  opacity: 1;
 }
 
 /* ===========================
@@ -189,222 +217,310 @@ li {
 .blog-subtitle {
   color: var(--color-text-muted);
   font-size: 16px;
-  margin-top: -12px;
+  margin-top: -4px;
   margin-bottom: 32px;
-}
-
-/* ===========================
-   Card Component (shared)
-   =========================== */
-.projects-container,
-.blog-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding: 40px 20px;
-}
-
-.project-card,
-.blog-card {
-  background-color: var(--color-bg-card);
-  padding: 20px;
-  width: 300px;
-  border-radius: var(--radius);
-  border: 1px solid var(--color-accent);
-  box-shadow: var(--shadow);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.project-card:hover,
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-}
-
-.project-card h3,
-.blog-card h3 {
-  color: var(--color-accent);
-  margin-bottom: 10px;
-}
-
-.project-card ul {
-  list-style: none;
-  padding: 0;
-}
-
-.project-card li {
-  margin: 5px 0;
-}
-
-.project-card a,
-.blog-card a {
-  display: inline-block;
-  margin-top: 10px;
-  color: var(--color-accent);
-  border-bottom: 1px solid var(--color-accent);
-  padding-bottom: 2px;
 }
 
 /* ===========================
    Blog Timeline List
    =========================== */
 .blog-list-wrapper {
-  max-width: 650px;
+  max-width: var(--max-width);
   margin: 0 auto;
   text-align: left;
-  padding: 60px 20px 100px;
+  padding: 40px 20px 80px;
 }
 
 .blog-list-wrapper h2 {
   text-align: left;
 }
 
+.blog-year {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.blog-year:first-of-type {
+  margin-top: 24px;
+}
+
 .blog-timeline {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .blog-entry {
   display: flex;
-  gap: 24px;
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(136, 146, 176, 0.15);
+  gap: 20px;
+  padding: 14px 8px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: background 0.2s;
-  align-items: flex-start;
+  transition: background 0.15s;
+  align-items: baseline;
 }
 
 .blog-entry:hover {
-  background: rgba(100, 255, 218, 0.03);
+  background: var(--color-hover-bg);
 }
 
 .blog-entry time {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-muted);
   white-space: nowrap;
-  padding-top: 3px;
-  min-width: 100px;
+  min-width: 90px;
+}
+
+.blog-entry-content {
+  flex: 1;
 }
 
 .blog-entry-content h3 {
-  font-size: 18px;
-  color: var(--color-white);
-  margin: 0 0 6px;
-  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-text);
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .blog-entry-content p {
-  font-size: 15px;
-  color: var(--color-text-subtle);
-  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 2px 0 0;
   line-height: 1.5;
 }
 
-.blog-entry:hover .blog-entry-content h3 {
-  color: var(--color-accent);
+.blog-entry-meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ===========================
+   Card Component (Projects)
+   =========================== */
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+}
+
+.project-card {
+  background-color: var(--color-bg-card);
+  padding: 24px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--color-text-muted);
+}
+
+.project-card h3 {
+  color: var(--color-text);
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.project-card p {
+  color: var(--color-text-subtle);
+  font-size: 15px;
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.project-card ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.project-card li {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  background: var(--color-hover-bg);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.project-card a {
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* ===========================
    Blog Post Article
    =========================== */
 .article-wrapper {
-  max-width: 65ch;
+  max-width: var(--max-width);
   margin: 0 auto;
   text-align: left;
+  padding: 40px 20px 80px;
 }
 
 .blog-header {
-  text-align: center;
-  margin-bottom: 2rem;
+  text-align: left;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .blog-header h1 {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: 700;
-  color: var(--color-accent);
-  margin-bottom: 1rem;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-.blog-header .author,
-.blog-header .date {
-  font-size: 1rem;
+.blog-header .author {
+  font-size: 15px;
   color: var(--color-text-subtle);
-  margin: 0.2rem 0;
+  margin: 0;
+}
+
+.blog-header .date {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 4px 0 0;
 }
 
 .post {
-  font-family: var(--font-reading);
+  font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.8;
   color: var(--color-text-subtle);
 }
 
 .post p {
-  margin-bottom: 1.4em;
-  text-align: justify;
+  margin-bottom: 1.5em;
 }
 
 .post .intro {
-  font-size: 1.2em;
-  color: var(--color-light);
-  font-weight: 500;
+  font-size: 18px;
+  color: var(--color-text);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 .post strong {
-  color: var(--color-white);
+  color: var(--color-text);
   font-weight: 600;
 }
 
 .post a {
   color: var(--color-accent);
-  border-bottom: 1px dashed var(--color-accent);
+  border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.post a:hover {
+  border-color: var(--color-accent);
+  opacity: 1;
 }
 
 .post h3 {
   color: var(--color-text);
-  font-size: 1.2rem;
+  font-size: 20px;
   text-align: left;
+  margin-top: 2em;
 }
 
 .post blockquote {
   border-left: 3px solid var(--color-accent);
   margin: 1.5em 0;
   padding: 0.5em 1em;
-  color: var(--color-light);
+  color: var(--color-text-subtle);
   font-style: italic;
+  background: var(--color-hover-bg);
+  border-radius: 0 6px 6px 0;
 }
 
 .reference {
   margin-top: 2em;
   font-style: italic;
-  color: #7dd3fc;
+  color: var(--color-accent);
 }
 
 .back-link {
-  text-align: center;
   margin: 3rem 0 1rem;
-  font-size: 1rem;
+  font-size: 15px;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.back-link a {
+  color: var(--color-text-muted);
+}
+
+.back-link a:hover {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+/* ===========================
+   About Page
+   =========================== */
+main section {
+  margin-bottom: 2rem;
+}
+
+main section h2 {
+  font-size: 28px;
+}
+
+main section h3 {
+  font-size: 18px;
+  color: var(--color-text);
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+main section p {
+  color: var(--color-text-subtle);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+main section ul {
+  list-style: none;
+  padding: 0;
+}
+
+main section li {
+  color: var(--color-text-subtle);
+  font-size: 16px;
+  margin: 6px 0;
 }
 
 /* ===========================
    Contact Page
    =========================== */
 .contact-container {
-  text-align: center;
-  padding: 100px 20px;
+  text-align: left;
+  padding: 40px 20px 80px;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .contact-container a {
   color: var(--color-accent);
-  border-bottom: 1px solid var(--color-accent);
-  padding-bottom: 2px;
-}
-
-.contact-container a:hover {
-  color: var(--color-text-muted);
 }
 
 .social-links {
@@ -412,22 +528,8 @@ li {
 }
 
 .social-links a {
-  margin: 0 10px;
-  font-size: 18px;
-}
-
-/* ===========================
-   Blog Nav (for post pages)
-   =========================== */
-.blog-nav {
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-}
-
-.blog-nav .divider {
-  margin: 0 8px;
-  color: var(--color-text-muted);
+  margin-right: 16px;
+  font-size: 16px;
 }
 
 /* ===========================
@@ -435,21 +537,24 @@ li {
    =========================== */
 footer {
   text-align: center;
-  padding: 20px;
-  font-size: 14px;
+  padding: 24px 20px;
+  font-size: 13px;
   color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 /* ===========================
    Page Transition
    =========================== */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-main {
-  animation: fadeIn 0.4s ease-out;
+main, main.hero {
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* ===========================
@@ -458,77 +563,50 @@ main {
 @media (max-width: 600px) {
   header {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   nav {
-    margin-top: 10px;
+    margin: 0;
   }
 
   nav a {
-    margin: 10px;
-  }
-
-  .social-links-text {
-    font-size: 12px;
-    margin-bottom: 15px;
-  }
-
-  main {
-    padding: 60px 10px;
-  }
-
-  h1 {
-    font-size: 26px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  h3 {
-    font-size: 16px;
+    margin-left: 0;
+    margin-right: 16px;
   }
 
   .hero-name {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .hero-tagline {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .hero {
-    padding: 40px 20px 60px;
+    padding: 32px 20px 24px;
   }
 
   .blog-entry {
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    padding: 12px 8px;
   }
 
   .blog-entry time {
     min-width: auto;
   }
 
-  ul li {
-    margin: 6px 0;
+  .blog-header h1 {
+    font-size: 26px;
   }
 
-  footer {
-    font-size: 12px;
+  .project-card {
+    padding: 20px;
   }
 
-  .projects-container,
-  .blog-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .project-card,
-  .blog-card {
-    width: 90%;
-    padding: 16px;
+  .projects-container {
+    gap: 12px;
   }
 }
