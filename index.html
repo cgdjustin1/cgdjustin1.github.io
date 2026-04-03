@@ -23,9 +23,24 @@ description: "Thinker, Builder, Trader. Building AI products and trading systems
       <span class="sep">/</span>
       <a href="mailto:guanda.chenn@gmail.com">Email</a>
     </p>
-    <div class="hero-cta">
-      <a href="/projects/" class="btn-primary">See my work</a>
-      <a href="/blog/" class="btn-secondary">Read my blog →</a>
+  </section>
+
+  <section class="home-posts">
+    {% assign postsByYear = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+    {% for year in postsByYear %}
+    <div class="blog-year">{{ year.name }}</div>
+    <div class="blog-timeline">
+      {% for post in year.items %}
+      <a href="{{ post.url | relative_url }}" class="blog-entry">
+        <time>{{ post.date | date: "%b %d" }}</time>
+        <div class="blog-entry-content">
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.description }}</p>
+        </div>
+        <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
+      </a>
+      {% endfor %}
     </div>
+    {% endfor %}
   </section>
 </main>
