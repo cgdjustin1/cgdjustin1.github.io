@@ -1,7 +1,7 @@
 ---
 layout: project
 title: "ATB — Quantitative Trading"
-description: "Automated quantitative trading system with factor research, backtesting, and live execution."
+description: "A two-year journey building systematic trading strategies — from technical analysis to a modular backtesting system running live with real money."
 tag: atb
 permalink: /projects/atb/
 links:
@@ -11,15 +11,31 @@ links:
 
 ## What is it?
 
-ATB is a full-stack quantitative trading system — from factor research to live execution. A team of 6 researchers building and running systematic strategies in real markets.
+ATB is the project I've spent the most time on over the past two years. I've always wanted stable passive income, and investing is the most natural form of it — if you can find a strategy that actually works.
 
-## Highlights
+## The journey
 
-- **6 strategies in production** with live capital via Interactive Brokers
-- **6-person research team** collaborating on factor discovery and validation
-- **Full backtesting infrastructure** — factor model → backtest → paper trade → live
-- **Reversal & trend factors** across US equities
+I started pursuing quantitative trading strategies in my second year of undergrad. I went deep — from technical analysis to fundamental analysis, then turning everything into programmatic strategies.
 
-## Philosophy
+I built my own backtesting system along the way. I've worked with MetaTrader 5 and IBKR APIs, used backtesting.py as my main framework, and also tried Backtrader and NautilusTrader. I've gotten familiar with pretty much every backtesting stack out there.
 
-Most quant systems are built by teams of 50+ at hedge funds. We're proving that a small, focused team with good infrastructure can compete. The edge isn't in compute — it's in ideas and discipline.
+One thing I'm proud of is the modular approach I developed. I break every strategy into six components:
+
+1. Entry
+2. Exit
+3. Position sizing
+4. Risk management
+5. Take profit
+6. Stop loss
+
+I assemble strategies like LEGO — mix and match modules to build and test new combinations quickly.
+
+## Results
+
+After all that exploration, the strategies I arrived at are doing roughly 25% annualized returns, validated across 15 years of historical data. I'm running them live with my own money right now.
+
+## Where it stands
+
+I realized that relying solely on investment returns to build wealth isn't realistic in the early stages. Investment growth is exponential — and exponential functions are painfully slow at the beginning. You need linear income growth first to reach a point where compounding can really shine.
+
+So right now, ATB is running in the background managing my capital, while I focus on building things that generate that linear income.
