@@ -4,7 +4,7 @@ title: "量化策略开发：从研究到实盘的完整框架"
 date: 2025-12-10
 author: "Justin Chen"
 description: "分享我构建量化策略全流程的思考与实践——从六因子模型到AI自动化研究。"
-tags: [quant, trading, framework, ai]
+tags: [quant, trading, framework, ai, atb]
 lang: zh
 ---
 
@@ -58,6 +58,8 @@ strategy:
 量化开发这条路，我觉得最有意思的不是找到"圣杯策略"，而是**构建能持续产生好策略的系统**。就像不是追求一次丰收，而是建立可持续的农业系统。
 
 如果你也在做量化，欢迎交流。特别是如果你有让AI更有效参与研究的想法，很想听听。
+
+*这篇文章基于我构建的 [ATB 量化交易系统](/projects/atb/) 的实践经验。*
 
 ## 数据中台：策略研究的基石
 
