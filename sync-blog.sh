@@ -2,9 +2,9 @@
 # Sync blog posts from Obsidian → Jekyll and deploy
 # Usage: ./sync-blog.sh [commit message]
 
-OBSIDIAN_BLOG=~/workspace/blog
-JEKYLL_POSTS=~/code/cgdjustin.github.io/_posts
-REPO=~/code/cgdjustin.github.io
+OBSIDIAN_BLOG="$HOME/workspace/writing/blog"
+REPO="$(cd "$(dirname "$0")" && pwd)"
+JEKYLL_POSTS="$REPO/_posts"
 
 MSG="${1:-blog: sync from obsidian}"
 
