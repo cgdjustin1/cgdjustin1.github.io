@@ -32,6 +32,9 @@ rsync -av --delete --include='????-??-??-*.md' --exclude='*' "$OBSIDIAN_BLOG/" "
 echo "📊 Posts:"
 ls -1 "$JEKYLL_POSTS/"
 
+echo "🏷️ Generating tag pages..."
+bash "$REPO/scripts/generate-tags.sh"
+
 echo ""
 cd "$REPO"
 if git diff --quiet && git diff --cached --quiet; then
