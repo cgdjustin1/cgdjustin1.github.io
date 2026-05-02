@@ -4,8 +4,7 @@ title: presentation是融资，拉项目的基础
 date: 2026-04-28
 author: Justin Chen
 description: ""
-tags:
-  - 小思考
+tags: [thinking]
 lang: zh
 ---
 
