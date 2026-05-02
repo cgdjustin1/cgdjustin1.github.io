@@ -4,7 +4,7 @@ title: "有用户，不代表这是一个 Business"
 date: 2026-05-02
 author: "Justin Chen"
 description: "一次关于产品、商业和价值交换的思考：在开发更多 feature 之前，先问清楚用户为什么付费。"
-tags: [startup, thinking, ai, trading]
+tags: [startup, thinking]
 lang: zh
 ---
 
