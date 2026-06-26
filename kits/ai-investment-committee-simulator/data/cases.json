@@ -1,0 +1,62 @@
+{
+  "_disclaimer": "Educational simulation only. Not financial advice. No real trading. All tickers and numbers below are preset toy scenarios, NOT live market data or recommendations.",
+  "cases": [
+    {
+      "id": "nvda-momentum",
+      "label": "NVDA Momentum",
+      "ticker": "NVDA (toy scenario)",
+      "summary": "A high-flying chip name in a strong uptrend. The committee debates whether to keep riding momentum or trim into strength.",
+      "signals": {
+        "momentum": 0.8,
+        "volatility": 0.55,
+        "valuation": 0.75,
+        "sentiment": 0.45,
+        "fundamentals": 0.6
+      },
+      "notes": {
+        "technical": "Price is riding well above its moving averages with strong upside follow-through.",
+        "sentiment": "Headlines are upbeat, though positioning is starting to look crowded.",
+        "fundamentals": "Earnings growth is real, but the multiple already prices in a lot of perfection.",
+        "risk": "A rich valuation combined with elevated volatility means any pullback would sting."
+      }
+    },
+    {
+      "id": "tsla-volatility",
+      "label": "TSLA Volatility",
+      "ticker": "TSLA (toy scenario)",
+      "summary": "A headline-driven name whipsawing in a wide range. The committee weighs choppy price action against an uncertain story.",
+      "signals": {
+        "momentum": 0.2,
+        "volatility": 0.85,
+        "valuation": 0.7,
+        "sentiment": -0.1,
+        "fundamentals": 0.1
+      },
+      "notes": {
+        "technical": "Trend is muddled and the tape is whippy with no clean direction.",
+        "sentiment": "Social and news sentiment is split and reactive to every headline.",
+        "fundamentals": "Margins are under pressure and the growth narrative is contested.",
+        "risk": "Very high realized volatility makes position sizing the dominant concern."
+      }
+    },
+    {
+      "id": "bank-stress",
+      "label": "Bank Stress",
+      "ticker": "Regional Bank Index (toy scenario)",
+      "summary": "A regional banking basket under deposit and credit stress. The committee leans defensive as fundamentals weaken.",
+      "signals": {
+        "momentum": -0.4,
+        "volatility": 0.6,
+        "valuation": 0.35,
+        "sentiment": -0.5,
+        "fundamentals": -0.45
+      },
+      "notes": {
+        "technical": "Price is breaking down below support with persistent distribution.",
+        "sentiment": "Coverage is fearful, focused on deposit flight and contagion risk.",
+        "fundamentals": "Net interest margins and credit quality are both deteriorating.",
+        "risk": "Stress scenarios dominate; capital preservation outweighs cheap-looking value."
+      }
+    }
+  ]
+}
