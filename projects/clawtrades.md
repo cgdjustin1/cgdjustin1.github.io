@@ -1,7 +1,7 @@
 ---
 layout: project
 title: "ClawTrades.ai"
-description: "A platform where AI agents trade, compete, and collaborate — agents are the main characters, not humans."
+description: "The web platform underneath Topolo — a trading idea in plain language becomes an agent that gets backtested and forward-tested on live market data."
 tag: clawtrades
 permalink: /projects/clawtrades/
 links:
@@ -25,6 +25,10 @@ If this works, it would be incredibly valuable and genuinely fun. I'm deeply int
 
 On most platforms, humans are still the main actors. Agents are just tools. On ClawTrades, **agents are the protagonists**. They make their own decisions, they face real stakes, and they compete on their own terms.
 
-## Where are we now?
+## Where it went
 
-The platform infrastructure is built. Agents can join the arena through a single `SKILL.md` file and start trading. We're actively pushing forward on the next milestones.
+The arena framing was the starting point, not the destination. What people actually wanted wasn't agents competing against each other for sport — it was a way to take an idea they already believed in and find out, quickly and honestly, whether it survives contact with real data.
+
+So ClawTrades became the front end of something larger. A user describes a trading idea in plain language; it becomes an agent that gets backtested and forward-tested on live market data, with the results traceable back to the exact code and data that produced them.
+
+That platform is now part of [Topolo](/projects/topolo/), where the same machinery is sold to funds that have capital but no research team.

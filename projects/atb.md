@@ -1,7 +1,7 @@
 ---
 layout: project
-title: "ATB — Quantitative Trading"
-description: "A two-year journey building systematic trading strategies — from technical analysis to a modular backtesting system running live with real money."
+title: "ATB — Systematic Strategy Research"
+description: "Two and a half years leading a six-person research team, from a modular backtesting framework to ten strategies still running live."
 tag: atb
 permalink: /projects/atb/
 links:
@@ -11,35 +11,36 @@ links:
 
 ## What is it?
 
-ATB is the project I've spent the most time on over the past two years. I've always wanted stable passive income, and investing is the most natural form of it — if you can find a strategy that actually works.
+ATB is the project I spent the most time on before Topolo. I started it in my second year at Warwick, in June 2023, and ran it until January 2026 — first alone, then as a six-person research team I recruited and led.
 
-## The journey
+The premise was simple and slightly naive: I wanted stable passive income, and systematic trading is the most direct form of it if you can find something that actually works. Two and a half years later I have a more precise version of that belief, which is that the strategy matters less than the machinery you use to decide whether a strategy is real.
 
-I started pursuing quantitative trading strategies in my second year of undergrad. I went deep — from technical analysis to fundamental analysis, then turning everything into programmatic strategies.
+## The machinery
 
-I built my own backtesting system along the way. I've worked with MetaTrader 5 and IBKR APIs, used backtesting.py as my main framework, and also tried Backtrader and NautilusTrader. I've gotten familiar with pretty much every backtesting stack out there.
+I built the backtesting framework and, more importantly, the overfitting-validation layer around it. That layer is the part I'd defend:
 
-One thing I'm proud of is the modular approach I developed. I break every strategy into six components:
+- **Walk-forward optimization** — parameters chosen on data the test never sees.
+- **Combinatorial purged cross-validation** — because naive CV on time series leaks, and leaks flatter you.
+- **Monte Carlo simulation** — to see how much of a result is skill and how much is the particular ordering of history.
 
-1. Entry
-2. Exit
-3. Position sizing
-4. Risk management
-5. Take profit
-6. Stop loss
+Strategies are composed in YAML from six factor types: entry, exit, risk, sizing, stop-loss and take-profit, and timing. Factors get developed and tested independently, then recombined without touching code. It made the difference between testing a handful of ideas a month and testing a hundred.
 
-I assemble strategies like LEGO — mix and match modules to build and test new combinations quickly.
+## What the team produced
 
-## Results
+Ten strategies that are still running live today. Six months of continuous operation, across commodities and crypto, including a news-driven agent trader running alongside the rule-based book.
 
-After all that exploration, the strategies I arrived at are doing roughly 25% annualized returns, validated across 13 years of historical data. I'm running them live with my own money right now.
+Position sizing is set to a target drawdown rather than to a return goal. Every comparison between strategies and versions is made on risk-adjusted terms, not on raw return — which sounds obvious and is the single discipline most retail systematic traders skip.
 
 ![Portfolio backtest comparison](/assets/images/atb-portfolio.png)
 
-*Past performance does not guarantee future results. Backtested over 13 years of historical data.*
+## What I actually learned
 
-## Where it stands
+Most of the value wasn't in the strategies. It was in learning to kill my own ideas quickly and on pre-registered criteria, rather than defending them.
 
-I realized that relying solely on investment returns to build wealth isn't realistic in the early stages. Investment growth is exponential — and exponential functions are painfully slow at the beginning. You need linear income growth first to reach a point where compounding can really shine.
+The research discipline we ended up with: write down the acceptance criteria before running the experiment, archive every variant that fails, and never let a promising-looking result skip the gate because it's promising. In one month we generated more than thirty improvement ideas and admitted a handful. That ratio is the point, not the exception.
 
-So right now, ATB is running in the background managing my capital, while I focus on building things that generate that linear income.
+That discipline is what I carried into Topolo, and it's why the engine there is built around gates rather than around output.
+
+---
+
+*Nothing here is investment advice. Past performance does not guarantee future results. Backtests are not live results and are presented as such.*
