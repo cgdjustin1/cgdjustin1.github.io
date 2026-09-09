@@ -797,3 +797,59 @@ main, main.hero {
     gap: 12px;
   }
 }
+
+/* --- 正文表格（项目页的档位表等） --- */
+.post table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6em 0;
+  font-size: 15px;
+}
+.post th,
+.post td {
+  text-align: left;
+  padding: 0.55em 0.7em;
+  border-bottom: 1px solid var(--color-border, #e5e5e5);
+}
+.post th {
+  font-weight: 600;
+  color: var(--color-text-subtle);
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  border-bottom-width: 2px;
+}
+.post td:not(:first-child),
+.post th:not(:first-child) { text-align: right; white-space: nowrap; }
+.post tbody tr:last-child td { border-bottom: none; }
+
+/* 关键数字条：一行三到四个指标 */
+.post .stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6em 2.4em;
+  margin: 1.8em 0;
+  padding: 1.1em 0;
+  border-top: 1px solid var(--color-border, #e5e5e5);
+  border-bottom: 1px solid var(--color-border, #e5e5e5);
+}
+.post .stat-row div { min-width: 90px; }
+.post .stat-row .n {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+.post .stat-row .l {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-top: 0.35em;
+}
+.post .note {
+  font-size: 14px;
+  color: var(--color-text-subtle);
+  line-height: 1.6;
+}
