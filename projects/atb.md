@@ -1,7 +1,7 @@
 ---
 layout: project
 title: "ATB — Systematic Strategy Research"
-description: "Two and a half years leading a six-person research team, from a modular backtesting framework to ten strategies still running live."
+description: "What running a six-person research team taught me: sizing is a dial, and the acceptance test comes before the experiment."
 tag: atb
 permalink: /projects/atb/
 links:
@@ -9,17 +9,17 @@ links:
     url: "https://github.com/cgdjustin1"
 ---
 
-I started ATB in my second year at Warwick and ran it until January 2026 — first alone, then as a six-person research team I recruited and led.
+I started ATB in my second year at Warwick — first alone, then as a six-person research team I recruited and still lead.
 
 <div class="stat-row">
-  <div><span class="n">2.5 yr</span><span class="l">Duration</span></div>
+  <div><span class="n">2023</span><span class="l">Running since</span></div>
   <div><span class="n">6</span><span class="l">Researchers</span></div>
-  <div><span class="n">10</span><span class="l">Strategies still live</span></div>
+  <div><span class="n">10</span><span class="l">Strategies live</span></div>
 </div>
 
 The premise was simple and slightly naive: I wanted stable passive income, and systematic trading is the most direct form of it if you can find something that actually works.
 
-Two and a half years later I hold a more precise version of that belief. **The strategy matters less than the machinery you use to decide whether a strategy is real.**
+Three years in, I hold a more precise version of that belief. **The strategy matters less than the machinery you use to decide whether a strategy is real.**
 
 ## The machinery
 
@@ -35,22 +35,9 @@ That was the difference between testing a handful of ideas a month and testing a
 
 ## Sizing is a dial, not an achievement
 
-Position sizing is set to a **target drawdown**, not to a return goal. The same strategy book produces very different headline numbers depending on the risk budget you give it.
+Position sizing is set to a **target drawdown**, not to a return goal. Give the same strategy book a bigger risk budget and its headline return climbs, but its drawdown climbs right along with it. Run one book at a conservative tier and at a levered tier, and the two look like entirely different strategies.
 
-Here is one book across 14.5 years of backtest, 2012 to 2026, at four sizing tiers:
-
-| Tier | Leverage | Avg exposure | Annualized | Max drawdown |
-|---|---|---|---|---|
-| Institutional | 0.175× | 11% | +5.7% | −7.5% |
-| Base | 1.0× | 62% | +36.4% | −36.5% |
-| Levered | 1.5× | 93% | +54.9% | −49.7% |
-| Levered | 2.0× | 124% | +72.9% | −60.4% |
-
-The row you quote says more about your risk appetite than about the research. Which is the point — **compare books on Sharpe and Calmar, never on headline return.**
-
-<p class="note">Backtest, 2012-01 to 2026-06. Includes spread and commission costs; compounded. Backtests are not live results. Nothing here is investment advice, and past performance does not guarantee future results.</p>
-
-![Portfolio backtest comparison](/assets/images/atb-portfolio.png)
+The number you quote says more about your risk appetite than about the research. Which is the point — **compare books on Sharpe and Calmar, never on headline return.**
 
 ## What I actually learned
 
