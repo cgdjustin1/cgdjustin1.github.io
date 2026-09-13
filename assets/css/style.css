@@ -1481,16 +1481,59 @@ body.tl-open > :not(.tl-overlay) {
   border-color: var(--color-accent);
 }
 
+.tl-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tl-close-x {
+  font-size: 13px;
+  line-height: 1;
+}
+
 .tl-close kbd {
   font: inherit;
   opacity: 0.6;
 }
 
-/* Stage */
+/* Stage: on a narrow screen the canvas is wider than the stage and scrolls sideways */
 .tl-stage {
   position: relative;
   flex: 1;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.tl-stage::-webkit-scrollbar {
+  display: none;
+}
+
+.tl-canvas {
+  position: relative;
+  height: 100%;
+}
+
+.tl-drag-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  font: 11px var(--font-mono);
+  color: var(--color-text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.tl-overlay.is-scrollable:not(.has-scrolled) .tl-drag-hint {
+  opacity: 1;
 }
 
 .tl-axis {
@@ -1889,12 +1932,32 @@ body.tl-open > :not(.tl-overlay) {
   }
 
   .tl-label-in {
-    max-width: 160px;
+    max-width: 200px;
     font-size: 12px;
   }
 
   .tl-row-name {
-    left: 16px;
+    left: 24px;
+  }
+
+  .tl-lang,
+  .tl-mode,
+  .tl-close {
+    min-height: 32px;
+    padding: 3px 12px;
+  }
+
+  .tl-close {
+    padding: 3px 10px;
+  }
+
+  .tl-close-x {
+    font-size: 15px;
+  }
+
+  .tl-close-text,
+  .tl-close kbd {
+    display: none;
   }
 
   .tl-card {

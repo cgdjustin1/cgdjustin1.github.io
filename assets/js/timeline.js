@@ -122,8 +122,8 @@
   }
 
   // ---- state ----
-  var overlay, stage, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
-  var built = false, isOpen = false, mode = 'axis';
+  var overlay, stage, canvas, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
+  var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null;
   var W = 0, H = 0, padL = 48, padR = 48, axisY = 0;
   var enabled = {};
   KINDS.forEach(function (k) { enabled[k.id] = true; });
@@ -148,19 +148,21 @@
         '<div class="tl-actions">' +
           '<button class="tl-lang" type="button" aria-label="Switch language / 切换语言">' + both('中文', 'EN') + '</button>' +
           '<button class="tl-mode" type="button" aria-pressed="false">' + both('Tracks', '分轨') + '</button>' +
-          '<button class="tl-close" type="button">' + both('Close', '关闭') + ' <kbd>esc</kbd></button>' +
+          '<button class="tl-close" type="button" aria-label="Close / 关闭"><span class="tl-close-x" aria-hidden="true">\u2715</span><span class="tl-close-text">' + both('Close', '关闭') + '</span> <kbd>esc</kbd></button>' +
         '</div>' +
       '</header>' +
-      '<div class="tl-stage">' +
+      '<div class="tl-stage"><div class="tl-canvas">' +
         '<div class="tl-rows"></div><div class="tl-ticks"></div>' +
         '<div class="tl-axis"><i></i></div>' +
         '<div class="tl-now"><span>' + both('now', '现在') + '</span></div>' +
         '<div class="tl-hot"></div><div class="tl-nodes"></div>' +
-      '</div>' +
+      '</div></div>' +
+      '<div class="tl-drag-hint">' + both('\u2190 drag \u2192', '\u2190 左右拖动 \u2192') + '</div>' +
       '<div class="tl-card" hidden></div>';
     document.body.appendChild(overlay);
 
     stage = overlay.querySelector('.tl-stage');
+    canvas = overlay.querySelector('.tl-canvas');
     nodesBox = overlay.querySelector('.tl-nodes');
     axis = overlay.querySelector('.tl-axis');
     nowMark = overlay.querySelector('.tl-now');
@@ -246,7 +248,14 @@
       try { localStorage.setItem('lang', next); } catch (e) {}
     });
     stage.addEventListener('click', function (e) {
-      if (e.target === stage || e.target.parentNode === stage) hideCard();
+      if (e.target === stage || e.target === canvas || e.target.parentNode === canvas) hideCard();
+    });
+    // A touch or wheel takes over from the opening pan and retires the drag hint
+    ['touchstart', 'wheel', 'pointerdown'].forEach(function (type) {
+      stage.addEventListener(type, function () {
+        panning = null;
+        overlay.classList.add('has-scrolled');
+      }, { passive: true });
     });
   }
 
@@ -267,11 +276,16 @@
   function layout(instant) {
     if (!built || !isOpen) return;
     if (instant) overlay.classList.add('no-anim');
-    W = stage.clientWidth;
+    var vw = stage.clientWidth;
     H = stage.clientHeight;
-    var mobile = W < 640;
-    padL = mobile ? 16 : 48;
-    padR = mobile ? 16 : 48;
+    var mobile = vw < 640;
+    // On a narrow screen the axis gets a wide canvas that scrolls sideways instead of squeezing everything in
+    W = mobile ? Math.max(vw, (years.length - 1) * 190 + 48) : vw;
+    scrollable = W > vw + 1;
+    canvas.style.width = W + 'px';
+    overlay.classList.toggle('is-scrollable', scrollable);
+    padL = mobile ? 24 : 48;
+    padR = mobile ? 24 : 48;
     var axisMode = mode === 'axis';
     var visible = events.filter(function (ev) { return enabled[ev.kind]; });
 
@@ -386,10 +400,27 @@
   }
 
   // Opening animation: the axis draws itself, then each item lifts off the page and lands on it
+  function panTo(target, duration) {
+    var from = stage.scrollLeft, started = performance.now();
+    var token = panning = {};
+    function step(t) {
+      if (panning !== token) return;
+      var p = Math.min(1, (t - started) / duration);
+      stage.scrollLeft = from + (target - from) * (1 - Math.pow(1 - p, 3));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
   function enter() {
     var sr = stage.getBoundingClientRect();
     var total = 900;
     overlay.classList.add('is-entering');
+    if (scrollable) {
+      // Start at the far left and drift to today while the dots light up in order
+      stage.scrollLeft = 0;
+      setTimeout(function () { if (isOpen) panTo(W - stage.clientWidth, 2200); }, 500);
+    }
     years.forEach(function (yr) {
       var d = (150 + (yr.x / Math.max(W, 1)) * 500) + 'ms';
       yr.line.firstChild.style.animationDelay = d;
@@ -400,7 +431,7 @@
       if (!enabled[ev.kind]) return;
       var delay = 450 + Math.min(i * 60, 1500);
       i++;
-      var src = sourceOf(ev);
+      var src = scrollable ? null : sourceOf(ev);
       var r = src && src.getBoundingClientRect();
       var land = delay;
       if (r && r.width > 0 && r.bottom > 0 && r.top < window.innerHeight) {
@@ -450,7 +481,7 @@
     card.hidden = false;
     var sr = stage.getBoundingClientRect();
     var cw = card.offsetWidth, ch = card.offsetHeight;
-    var left = clamp(sr.left + ev.x - cw / 2, 8, window.innerWidth - cw - 8);
+    var left = clamp(sr.left + ev.x - stage.scrollLeft - cw / 2, 8, window.innerWidth - cw - 8);
     var top = sr.top + ev.y + 20;
     if (top + ch > window.innerHeight - 8) top = sr.top + ev.y - ch - 20;
     card.style.transform = 'translate(' + Math.round(left) + 'px,' + Math.round(top) + 'px)';
@@ -481,10 +512,12 @@
     for (var i = 0; i < kids.length; i++) if (kids[i] !== overlay) kids[i].inert = on;
   }
 
-  function open() {
+  function open(fromHistory) {
     if (!built) { build(); built = true; }
     if (isOpen) return;
     isOpen = true;
+    // Opening adds a history entry, so the back button or swipe closes the timeline instead of leaving the page
+    if (!fromHistory) { try { history.pushState({ tl: true }, '', location.href); } catch (e) {} }
     lastFocus = document.activeElement;
     overlay.hidden = false;
     stage.classList.toggle('is-tracks', mode === 'tracks');
@@ -499,7 +532,14 @@
 
   function close() {
     if (!isOpen) return;
+    if (history.state && history.state.tl) { history.back(); return; }
+    finishClose();
+  }
+
+  function finishClose() {
+    if (!isOpen) return;
     isOpen = false;
+    panning = null;
     hideCard();
     overlay.classList.remove('is-open', 'is-entering');
     overlay.querySelectorAll('.tl-ghost').forEach(function (g) { g.remove(); });
@@ -509,8 +549,12 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
 
-  opener.addEventListener('click', open);
+  opener.addEventListener('click', function () { open(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) close(); });
+  window.addEventListener('popstate', function () {
+    if (isOpen) finishClose();
+    else if (history.state && history.state.tl) open(true);
+  });
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
@@ -520,5 +564,5 @@
   new MutationObserver(function () {
     if (isOpen) { layout(true); if (cardFor) showCard(cardFor); }
   }).observe(root, { attributes: true, attributeFilter: ['data-lang'] });
-  if (location.hash === '#timeline') open();
+  if (location.hash === '#timeline' || (history.state && history.state.tl)) open(location.hash !== '#timeline');
 })();
