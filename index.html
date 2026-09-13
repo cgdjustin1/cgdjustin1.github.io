@@ -26,41 +26,42 @@ description: "Builder. AI systems that institutions trust with consequential dec
     </p>
   </section>
 
-  <section class="home-projects">
-    <div class="blog-year">Projects</div>
+  <section class="home-writing">
+    <div class="blog-year">Writing</div>
+    {% assign latest = site.posts.first %}
+    {% if latest %}
+    <a href="{{ latest.url | relative_url }}" class="featured-post" lang="{{ latest.lang | default: 'en' }}">
+      <time>{{ latest.date | date: "%b %d, %Y" }} · {% include reading-time.html content=latest.content lang=latest.lang %}</time>
+      <h2>{{ latest.title }}</h2>
+      {% if latest.description and latest.description != "" %}<p>{{ latest.description }}</p>{% endif %}
+      <span class="featured-cta">Read →</span>
+    </a>
+    {% endif %}
     <div class="blog-timeline">
-      <a href="/projects/topolo/" class="blog-entry">
-        <div class="blog-entry-content">
-          <h3>Topolo</h3>
-          <p>Research infrastructure for AI-native finance.</p>
+      {% for post in site.posts offset: 1 limit: 5 %}
+      <div class="blog-entry">
+        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+          {% if post.description and post.description != "" %}<p>{{ post.description }}</p>{% endif %}
         </div>
-      </a>
-      <a href="/projects/atb/" class="blog-entry">
-        <div class="blog-entry-content">
-          <h3>ATB — Systematic Strategy Research</h3>
-          <p>What running a research team taught me: sizing is a dial; write the acceptance test first.</p>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <section class="home-posts">
-    {% assign postsByYear = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
-    {% for year in postsByYear %}
-    <div class="blog-year">{{ year.name }}</div>
-    <div class="blog-timeline">
-      {% for post in year.items %}
-      <a href="{{ post.url | relative_url }}" class="blog-entry">
-        <time>{{ post.date | date: "%b %d" }}</time>
-        <div class="blog-entry-content">
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.description }}</p>
-          {% if post.tags.size > 0 %}<div class="post-tags">{% for tag in post.tags %}<a href="/tags/{{ tag }}/" class="tag-pill">{{ tag }}</a>{% endfor %}</div>{% endif %}
-        </div>
-        <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
-      </a>
+      </div>
       {% endfor %}
     </div>
-    {% endfor %}
+    {% if site.posts.size > 6 %}<a href="{{ '/blog/' | relative_url }}" class="home-see-all">All posts →</a>{% endif %}
+  </section>
+
+  <section class="home-projects">
+    <div class="blog-year">Projects</div>
+    <div class="home-project-list">
+      <a href="/projects/topolo/" class="home-project-item">
+        <h3>Topolo</h3>
+        <p>Research infrastructure for AI-native finance.</p>
+      </a>
+      <a href="/projects/atb/" class="home-project-item">
+        <h3>ATB — Systematic Strategy Research</h3>
+        <p>What running a research team taught me: sizing is a dial; write the acceptance test first.</p>
+      </a>
+    </div>
   </section>
 </main>

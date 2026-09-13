@@ -1,0 +1,12 @@
+{%- comment -%}
+  Reading time. number_of_words cannot count Chinese (no spaces between words),
+  so Chinese posts are estimated from characters instead.
+{%- endcomment -%}
+{%- assign rt_text = include.content | strip_html | strip_newlines -%}
+{%- if include.lang == "zh" -%}
+  {%- assign rt_minutes = rt_text | size | divided_by: 450 -%}
+{%- else -%}
+  {%- assign rt_minutes = rt_text | number_of_words | divided_by: 230 -%}
+{%- endif -%}
+{%- if rt_minutes < 1 -%}{%- assign rt_minutes = 1 -%}{%- endif -%}
+{{ rt_minutes }} min{% unless include.short %} read{% endunless %}

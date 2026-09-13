@@ -14,6 +14,53 @@
   --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
   --radius: 8px;
   --max-width: 640px;
+  --color-accent-soft: rgba(0, 102, 204, 0.08);
+  --color-accent-soft-hover: rgba(0, 102, 204, 0.15);
+  --color-accent-line: rgba(0, 102, 204, 0.3);
+  --color-selection: rgba(0, 102, 204, 0.12);
+  --color-code-bg: #f3f4f6;
+  --gradient-name: linear-gradient(135deg, #1d1d1f 0%, #2d3a8c 50%, #6e3fae 100%);
+  --font-zh: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+  color-scheme: light;
+}
+
+/* Dark theme: follows the system unless the reader picks one with the toggle */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #111214;
+    --color-bg-card: #18191c;
+    --color-text: #ececef;
+    --color-text-muted: #8e8e96;
+    --color-text-subtle: #c4c4ca;
+    --color-accent: #5aa9ff;
+    --color-border: #2a2c31;
+    --color-hover-bg: #1c1d21;
+    --color-accent-soft: rgba(90, 169, 255, 0.12);
+    --color-accent-soft-hover: rgba(90, 169, 255, 0.22);
+    --color-accent-line: rgba(90, 169, 255, 0.35);
+    --color-selection: rgba(90, 169, 255, 0.28);
+    --color-code-bg: #1a1b1f;
+    --gradient-name: linear-gradient(135deg, #f2f2f5 0%, #9fb0ff 55%, #c9a2ff 100%);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #111214;
+  --color-bg-card: #18191c;
+  --color-text: #ececef;
+  --color-text-muted: #8e8e96;
+  --color-text-subtle: #c4c4ca;
+  --color-accent: #5aa9ff;
+  --color-border: #2a2c31;
+  --color-hover-bg: #1c1d21;
+  --color-accent-soft: rgba(90, 169, 255, 0.12);
+  --color-accent-soft-hover: rgba(90, 169, 255, 0.22);
+  --color-accent-line: rgba(90, 169, 255, 0.35);
+  --color-selection: rgba(90, 169, 255, 0.28);
+  --color-code-bg: #1a1b1f;
+  --gradient-name: linear-gradient(135deg, #f2f2f5 0%, #9fb0ff 55%, #c9a2ff 100%);
+  color-scheme: dark;
 }
 
 /* ===========================
@@ -27,6 +74,7 @@ body {
   color: var(--color-text);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 a {
@@ -40,13 +88,13 @@ a:hover {
 }
 
 ::selection {
-  background: rgba(0, 102, 204, 0.12);
+  background: var(--color-selection);
 }
 
 /* ===========================
    Header / Nav
    =========================== */
-header {
+.site-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,19 +103,19 @@ header {
   margin: 0 auto;
 }
 
-header h1 {
+.site-header h1 {
   font-size: 18px;
   font-weight: 600;
   margin: 0;
   font-family: var(--font-mono);
 }
 
-header h1 a {
+.site-header h1 a {
   color: var(--color-text);
   text-decoration: none;
 }
 
-header h1 a:hover {
+.site-header h1 a:hover {
   opacity: 0.7;
 }
 
@@ -138,7 +186,7 @@ h3 {
   font-weight: 700;
   letter-spacing: -0.03em;
   font-family: var(--font-mono);
-  background: linear-gradient(135deg, #1d1d1f 0%, #2d3a8c 50%, #6e3fae 100%);
+  background: var(--gradient-name);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -332,6 +380,7 @@ h3 {
   text-decoration: none;
   transition: background 0.15s;
   align-items: baseline;
+  position: relative;
 }
 
 .blog-entry:hover {
@@ -452,7 +501,7 @@ h3 {
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--color-accent);
-  background: rgba(0, 102, 204, 0.08);
+  background: var(--color-accent-soft);
   padding: 2px 8px;
   border-radius: 4px;
   text-decoration: none;
@@ -460,7 +509,7 @@ h3 {
 }
 
 .post-tags a:hover {
-  background: rgba(0, 102, 204, 0.15);
+  background: var(--color-accent-soft-hover);
   opacity: 1;
 }
 
@@ -609,7 +658,7 @@ a.project-card:hover {
 
 .post a {
   color: var(--color-accent);
-  border-bottom: 1px solid rgba(0, 102, 204, 0.3);
+  border-bottom: 1px solid var(--color-accent-line);
 }
 
 .post a:hover {
@@ -748,7 +797,7 @@ main, main.hero {
    Responsive
    =========================== */
 @media (max-width: 600px) {
-  header {
+  .site-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
@@ -852,4 +901,255 @@ main, main.hero {
   font-size: 14px;
   color: var(--color-text-subtle);
   line-height: 1.6;
+}
+
+/* ===========================
+   Writing first (2026-09)
+   =========================== */
+
+/* Whole-row post links without nesting <a> inside <a> */
+.blog-entry h3 a {
+  color: var(--color-text);
+}
+
+.blog-entry h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+}
+
+.blog-entry .post-tags {
+  position: relative;
+  z-index: 1;
+}
+
+/* Home: the latest post leads */
+.home-writing {
+  margin-top: 48px;
+}
+
+.featured-post {
+  display: block;
+  padding: 16px 8px 22px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+  color: inherit;
+}
+
+.featured-post:hover {
+  opacity: 1;
+}
+
+.featured-post:hover h2 {
+  color: var(--color-accent);
+}
+
+.featured-post time {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.featured-post h2 {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 6px 0 8px;
+  color: var(--color-text);
+  transition: color 0.2s;
+}
+
+.featured-post p {
+  font-size: 16px;
+  color: var(--color-text-subtle);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.featured-cta {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-accent);
+}
+
+.home-writing .blog-entry time {
+  min-width: 110px;
+}
+
+/* Articles */
+.post h2 {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text);
+  margin: 2.2em 0 0.8em;
+}
+
+.post:lang(zh) {
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.post:lang(zh) p {
+  margin-bottom: 1.2em;
+}
+
+.post hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5em 0;
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.post-nav a {
+  display: flex;
+  flex-direction: column;
+  max-width: 48%;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.post-nav a span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.post-nav-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.post-nav + .back-link {
+  margin-top: 1.5rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+@media (max-width: 600px) {
+  .featured-post h2 {
+    font-size: 22px;
+  }
+
+  .post-nav {
+    flex-direction: column;
+  }
+
+  .post-nav a {
+    max-width: 100%;
+  }
+
+  .post-nav-next {
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+/* ===========================
+   Theme toggle
+   =========================== */
+.theme-toggle {
+  margin-left: 20px;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  line-height: 0;
+  vertical-align: middle;
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ===========================
+   Reading
+   =========================== */
+/* Chinese text takes system CJK fonts for its Latin letters too, so a line doesn't switch typefaces mid-sentence */
+.post:lang(zh),
+.post:lang(zh) h2,
+.post:lang(zh) h3,
+.blog-header h1:lang(zh),
+.featured-post:lang(zh) h2,
+.featured-post:lang(zh) p,
+.blog-entry-content:lang(zh) h3,
+.blog-entry-content:lang(zh) p {
+  font-family: var(--font-zh);
+}
+
+.blog-header h1:lang(zh) {
+  letter-spacing: 0;
+}
+
+/* CJK fonts have no italics; browsers would fake a slant */
+.post:lang(zh) em,
+.post:lang(zh) blockquote {
+  font-style: normal;
+}
+
+.post code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--color-code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.post pre {
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.post pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+.post img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .theme-toggle {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main,
+  main.hero {
+    animation: none;
+  }
+
+  body {
+    transition: none;
+  }
 }

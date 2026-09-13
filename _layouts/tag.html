@@ -11,11 +11,11 @@ layout: default
       {% for post in tagged_posts %}
       <a href="{{ post.url | relative_url }}" class="blog-entry">
         <time>{{ post.date | date: "%b %d, %Y" }}</time>
-        <div class="blog-entry-content">
+        <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
           <h3>{{ post.title }}</h3>
           <p>{{ post.description }}</p>
         </div>
-        <span class="blog-entry-meta">{% assign words = post.content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min</span>
+        <span class="blog-entry-meta">{% include reading-time.html content=post.content lang=post.lang short=true %}</span>
       </a>
       {% endfor %}
     {% else %}

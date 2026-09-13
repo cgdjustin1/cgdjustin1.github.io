@@ -4,15 +4,21 @@ layout: default
 <main class="article-wrapper">
   <header class="blog-header">
     <h1>{{ page.title }}</h1>
-    <p class="author">{{ page.author | default: "Justin Chen" }}</p>
-    <p class="date">{{ page.date | date: "%B %d, %Y" }} · {% assign words = content | number_of_words %}{% if words < 250 %}1{% else %}{{ words | divided_by: 250 }}{% endif %} min read</p>
+    <p class="date">{{ page.date | date: "%B %d, %Y" }} · {% include reading-time.html content=content lang=page.lang %}</p>
   </header>
 
   <article class="post">
     {{ content }}
   </article>
 
+  {% if page.previous or page.next %}
+  <div class="post-nav">
+    {% if page.previous %}<a class="post-nav-prev" href="{{ page.previous.url | relative_url }}"><span>← Older</span>{{ page.previous.title }}</a>{% endif %}
+    {% if page.next %}<a class="post-nav-next" href="{{ page.next.url | relative_url }}"><span>Newer →</span>{{ page.next.title }}</a>{% endif %}
+  </div>
+  {% endif %}
+
   <div class="back-link">
-    <a href="{{ '/blog/' | relative_url }}">← Back to Blog</a>
+    <a href="{{ '/blog/' | relative_url }}">← All posts</a>
   </div>
 </main>

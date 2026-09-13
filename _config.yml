@@ -1,6 +1,8 @@
 title: Justin Chen
 description: Builder — AI systems that institutions trust with consequential decisions
-url: "http://cgdjustin.xyz"
+url: "https://cgdjustin.xyz"
 baseurl: ""
 markdown: kramdown
 permalink: pretty
+plugins:
+  - jekyll-feed
