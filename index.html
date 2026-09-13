@@ -6,14 +6,17 @@ description: "Builder. AI systems that institutions trust with consequential dec
 
 <main class="hero">
   <section class="hero-intro">
-    <p class="hero-greeting">Hi, I'm</p>
+    <p class="hero-greeting"><span data-i18n="en">Hi, I'm</span><span data-i18n="zh">你好，我是</span></p>
     <h1 class="hero-name">Justin Chen.</h1>
-    <h2 class="hero-tagline">I build things and think deeply.</h2>
-    <p class="hero-bio">
+    <h2 class="hero-tagline"><span data-i18n="en">I build things and think deeply.</span><span data-i18n="zh">我喜欢做东西，也喜欢把事情想透。</span></h2>
+    <p class="hero-bio" data-i18n="en">
       Applied Data Science at USC, Mathematics from Warwick, CQF.
       I build AI systems that institutions trust with real money — automated research engines,
       with the governance that makes them safe to hand over.
       Founder of Topolo. I also lead the six-person research team I built at ATB. Previously did quant research at Causis.
+    </p>
+    <p class="hero-bio" data-i18n="zh">
+      USC 应用数据科学在读，Warwick 数学本科，CQF。我做机构敢托付真金白银的 AI 系统：自动化的研究引擎，配上一套管控，交出去才让人放心。我创办了 Topolo，也带着自己在 ATB 搭起来的六人研究团队，之前在 Causis 做过量化研究。
     </p>
     <p class="hero-links">
       <a href="https://github.com/cgdjustin1" target="_blank">GitHub</a>
@@ -27,20 +30,20 @@ description: "Builder. AI systems that institutions trust with consequential dec
   </section>
 
   <section class="home-writing">
-    <div class="blog-year">Writing</div>
+    <div class="blog-year"><span data-i18n="en">Writing</span><span data-i18n="zh">文章</span></div>
     {% assign latest = site.posts.first %}
     {% if latest %}
     <a href="{{ latest.url | relative_url }}" class="featured-post" lang="{{ latest.lang | default: 'en' }}">
-      <time>{{ latest.date | date: "%b %d, %Y" }} · {% include reading-time.html content=latest.content lang=latest.lang %}</time>
+      <time>{% include date.html date=latest.date %} · {% include reading-time.html content=latest.content lang=latest.lang %}</time>
       <h2>{{ latest.title }}</h2>
       {% if latest.description and latest.description != "" %}<p>{{ latest.description }}</p>{% endif %}
-      <span class="featured-cta">Read →</span>
+      <span class="featured-cta"><span data-i18n="en">Read →</span><span data-i18n="zh">阅读 →</span></span>
     </a>
     {% endif %}
     <div class="blog-timeline">
       {% for post in site.posts offset: 1 limit: 5 %}
       <div class="blog-entry">
-        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <time>{% include date.html date=post.date %}</time>
         <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
           <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
           {% if post.description and post.description != "" %}<p>{{ post.description }}</p>{% endif %}
@@ -48,19 +51,41 @@ description: "Builder. AI systems that institutions trust with consequential dec
       </div>
       {% endfor %}
     </div>
-    {% if site.posts.size > 6 %}<a href="{{ '/blog/' | relative_url }}" class="home-see-all">All posts →</a>{% endif %}
+    {% if site.posts.size > 6 %}<a href="{{ '/blog/' | relative_url }}" class="home-see-all"><span data-i18n="en">All posts →</span><span data-i18n="zh">全部文章 →</span></a>{% endif %}
   </section>
 
   <section class="home-projects">
-    <div class="blog-year">Projects</div>
+    <div class="blog-year"><span data-i18n="en">Questions</span><span data-i18n="zh">问题</span></div>
+    <div class="home-project-list">
+      <a href="/questions/#autoquant" class="home-project-item">
+        <h3><span data-i18n="en">How can AutoQuant Research produce good strategies?</span><span data-i18n="zh">AutoQuant Research 怎么产出好的策略？</span></h3>
+        <p><span data-i18n="en">When a machine writes and tests strategies by itself, which ones are real, and does it get more accurate as it goes?</span><span data-i18n="zh">机器自己写、自己测出来的策略，哪些是真的，能不能越测越准。</span></p>
+      </a>
+      <a href="/questions/#humans" class="home-project-item">
+        <h3><span data-i18n="en">Once AI does all the work, what should people learn and do?</span><span data-i18n="zh">AI 把事都做完之后，人学什么、做什么？</span></h3>
+        <p><span data-i18n="en">If AI can do most of what's taught in class, what do people still learn, and what do they do?</span><span data-i18n="zh">AI 能做完课上教的大部分东西，人还学什么，去干嘛。</span></p>
+      </a>
+      <a href="/questions/#production" class="home-project-item">
+        <h3><span data-i18n="en">How can AI really be put to work across the economy?</span><span data-i18n="zh">怎么让 AI 真正参与到社会生产里？</span></h3>
+        <p><span data-i18n="en">AI is already smart, but companies still haven't really put it to use. It gets stuck on accountability and control.</span><span data-i18n="zh">AI 已经很聪明了，企业却还没真正用起来，卡在担责和可控。</span></p>
+      </a>
+      <a href="/questions/#incentives" class="home-project-item">
+        <h3><span data-i18n="en">An incentive system for the post-AI era</span><span data-i18n="zh">后 AI 时代的激励体系</span></h3>
+        <p><span data-i18n="en">If AI can do everything, how do people stay motivated to create, and who pays for what they make?</span><span data-i18n="zh">AI 什么都能做了，怎么让人还有动力去创造，做出来的东西还有人买单。</span></p>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-projects">
+    <div class="blog-year"><span data-i18n="en">Projects</span><span data-i18n="zh">项目</span></div>
     <div class="home-project-list">
       <a href="/projects/topolo/" class="home-project-item">
         <h3>Topolo</h3>
-        <p>Research infrastructure for AI-native finance.</p>
+        <p><span data-i18n="en">Research infrastructure for AI-native finance.</span><span data-i18n="zh">面向 AI 原生金融的研究基础设施。</span></p>
       </a>
       <a href="/projects/atb/" class="home-project-item">
-        <h3>ATB — Systematic Strategy Research</h3>
-        <p>What running a research team taught me: sizing is a dial; write the acceptance test first.</p>
+        <h3><span data-i18n="en">ATB — Systematic Strategy Research</span><span data-i18n="zh">ATB 系统化策略研究</span></h3>
+        <p><span data-i18n="en">What running a research team taught me: sizing is a dial; write the acceptance test first.</span><span data-i18n="zh">带研究团队学到的：仓位是可以调的旋钮；验收标准要在动手之前写好。</span></p>
       </a>
     </div>
   </section>

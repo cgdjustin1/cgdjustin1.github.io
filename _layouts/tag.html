@@ -10,7 +10,7 @@ layout: default
     {% if tagged_posts.size > 0 %}
       {% for post in tagged_posts %}
       <a href="{{ post.url | relative_url }}" class="blog-entry">
-        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <time>{% include date.html date=post.date %}</time>
         <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
           <h3>{{ post.title }}</h3>
           <p>{{ post.description }}</p>
@@ -19,7 +19,7 @@ layout: default
       </a>
       {% endfor %}
     {% else %}
-      <p style="color: var(--color-text-muted); padding: 20px 8px;">No posts yet. Stay tuned.</p>
+      <p style="color: var(--color-text-muted); padding: 20px 8px;"><span data-i18n="en">No posts yet. Stay tuned.</span><span data-i18n="zh">还没有文章。</span></p>
     {% endif %}
   </div>
 </main>

@@ -9,4 +9,4 @@
   {%- assign rt_minutes = rt_text | number_of_words | divided_by: 230 -%}
 {%- endif -%}
 {%- if rt_minutes < 1 -%}{%- assign rt_minutes = 1 -%}{%- endif -%}
-{{ rt_minutes }} min{% unless include.short %} read{% endunless %}
+<span data-i18n="en">{{ rt_minutes }} min{% unless include.short %} read{% endunless %}</span><span data-i18n="zh">{{ rt_minutes }} 分钟</span>

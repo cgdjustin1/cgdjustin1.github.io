@@ -1,0 +1,64 @@
+---
+layout: default
+title: "Questions - Justin Chen"
+description: "Questions I keep thinking about, and how they change. 我现在在想的几个问题，以及它们怎么变。"
+permalink: /questions/
+---
+
+<main class="article-wrapper">
+  <h2><span data-i18n="en">Questions I'm chasing</span><span data-i18n="zh">我在追的问题</span></h2>
+  <p class="page-subtitle"><span data-i18n="en">These are the questions I'm thinking about right now. My views will change, and when they do I'll add a note at the bottom and leave the old version up, so in a few years I can look back and see how I changed.</span><span data-i18n="zh">这些是我现在在想的几个问题。想法会变，变了我就在最下面记一笔，旧的留着，过几年回头看看自己是怎么变的。</span></p>
+
+  <article class="post">
+    <h3 id="autoquant"><span data-i18n="en">How can AutoQuant Research produce good strategies?</span><span data-i18n="zh">AutoQuant Research 怎么产出好的策略？</span></h3>
+    <p class="q-meta"><span data-i18n="en">Since 2023 · Ongoing</span><span data-i18n="zh">起于 2023 · 在追</span></p>
+    <div data-i18n="zh" lang="zh">
+      <p>我做量化策略研究差不多三年了，最早是在 Warwick 读大二的时候一个人写回测，一个月能认真测几个想法就不错了。后来带 ATB 的团队，我们把策略拆成入场、出场、风险、仓位、止损止盈、执行时机六块，用 YAML 拼起来，一个月能测上百个，但也发现测得越多越容易骗自己，有一个月我们提了三十多个改进想法，最后真正留下来的只有几个。今年我开始让 AI 自己写信号代码、自己回测、自己打分，过了闸才入库，快了很多，可新的问题也跟着来了：有一次一个策略的脚本默认参数和组合里用的不一样，它不报错，就安安静静地跑成了另一个版本，我是逐笔对账才发现的。DeepMind 的 AlphaEvolve 也是让模型写代码、机器打分、一轮一轮地进化，结果找到了比 Strassen 1969 年更好的 4×4 矩阵乘法，只要 48 次乘法，那策略是不是也能这样被机器一轮一轮地找出来？所以我想研究 AutoQuant 怎么才能产出真正好的策略，怎么判断机器找到的东西是真的有效，还是只是刚好贴合了那段历史，还有怎么让它记住什么有效、什么失败，一轮比一轮聪明。</p>
+      <p>相关：<a href="/2026/09/12/silent-errors/">不报错，只算错</a></p>
+    </div>
+    <div data-i18n="en" lang="en">
+      <p>I've been doing quant strategy research for almost three years. It started in my second year at Warwick, when I wrote backtests by myself and properly testing a few ideas in a month was already good. Later, when I was leading the team at ATB, we split a strategy into six parts: entry, exit, risk, position sizing, stop loss and take profit, and execution timing. We put them together in YAML and could test a hundred or more ideas a month, but we also found that the more you test, the easier it is to fool yourself. One month we came up with more than thirty ideas for improvements, and only a few of them survived. This year I started letting AI write the signal code, run the backtest and score the result by itself, and a strategy only goes into the library after it passes the checks. It's a lot faster, but new problems came with it. Once, a strategy's script had a default parameter that was different from the one used in the portfolio. It threw no error and just silently ran as a different version, and I only caught it by reconciling the trades one by one. DeepMind's AlphaEvolve also has a model write code, lets a machine score it and evolves it round after round, and it found a way to multiply 4×4 matrices with 48 multiplications, better than Strassen's 1969 method. So could a machine find strategies the same way, round after round? I want to study how AutoQuant can produce strategies that are really good, how to tell whether what the machine finds actually works or just happened to fit that stretch of history, and how to make it remember what worked and what failed so each round is smarter than the one before.</p>
+      <p>Related: <a href="/2026/09/12/silent-errors/">不报错，只算错</a> (in Chinese)</p>
+    </div>
+
+    <h3 id="humans"><span data-i18n="en">Once AI does all the work, what should people learn and do?</span><span data-i18n="zh">AI 把事都做完之后，人学什么、做什么？</span></h3>
+    <p class="q-meta"><span data-i18n="en">Since 2023 · Ongoing</span><span data-i18n="zh">起于 2023 · 在追</span></p>
+    <div data-i18n="zh" lang="zh">
+      <p>似乎我一直对人类在短暂的一生里要去追求什么这个问题很感兴趣。2023 年当时有思考过「我们这代人该做什么」。现在 AI 真的可以加速去把自己提出的「愿望」实现，想解决的问题真的得到解决。我借助 AI 的帮助很快地加速了我的量化研究，让我得到了不少很不错的量化策略，也让我有了一个程序在背后默默帮我赚钱。就连人类攻了 90 年也未解决的千禧年难题 NS 方程，都在 AI 的帮助下基本被解决了，那还有什么事情 AI 做不了呢？所以基于个人兴趣，我想去研究 AI 真的能把我们过去在做的事做完且做得更好之后，人到底要做什么，这个世界要做什么。</p>
+      <p>相关：<a href="/2023/06/30/what-should-we-do/">我们这代人该做什么？</a></p>
+    </div>
+    <div data-i18n="en" lang="en">
+      <p>I seem to have always been interested in what people should go after in their short lives. Back in 2023 I thought about what our generation should do. Now AI really can speed up turning the "wishes" we come up with into reality, and the problems we want solved really do get solved. With AI's help I sped up my quant research a lot. It got me quite a few good strategies, and a program that makes money for me in the background. Even the Navier-Stokes problem, a Millennium Prize problem people had worked on for 90 years without solving, has more or less been solved with AI's help, so is there anything left that AI can't do? So, out of personal interest, I want to study what people should do, and what the world should do, once AI can finish the things we used to do and do them better.</p>
+      <p>Related: <a href="/2023/06/30/what-should-we-do/">我们这代人该做什么？</a> (in Chinese)</p>
+    </div>
+
+    <h3 id="production"><span data-i18n="en">How can AI really be put to work across the economy?</span><span data-i18n="zh">怎么让 AI 真正参与到社会生产里？</span></h3>
+    <p class="q-meta"><span data-i18n="en">Since 2026 · Ongoing</span><span data-i18n="zh">起于 2026 · 在追</span></p>
+    <div data-i18n="zh" lang="zh">
+      <p>现在的 AI 已经很聪明了，能写代码，能做研究，可是似乎它还没有给整个社会的生产带来多少实际的提升，大部分企业其实并没有真正把它用起来。我觉得主要是因为 AI 没办法为结果担责任，输出也不可控，同一个问题问两遍可能就是两个答案，一家企业很难把重要的事交给一个出了错没人负责、结果又说不准的东西。所以我觉得怎么让 AI 真正参与到社会的生产里，谁来为它的输出负责，怎么让它的结果变得可控、可以检查，是一件很有价值也很有必要去研究的事情。</p>
+    </div>
+    <div data-i18n="en" lang="en">
+      <p>AI is already very smart. It can write code and do research, but it doesn't seem to have done much yet for real productivity across society, and most companies haven't really put it to use. I think the main reason is that AI can't take responsibility for its results, and its output can't be controlled: ask it the same question twice and you might get two different answers. It's hard for a company to hand something important to a system when nobody is responsible if it goes wrong and nobody can say for sure what it will produce. So I think it's both worthwhile and necessary to study how AI can really become part of production, who takes responsibility for its output, and how to make its results controllable and checkable.</p>
+    </div>
+
+    <h3 id="incentives"><span data-i18n="en">An incentive system for the post-AI era: everyone creates, and what they create still gets paid for</span><span data-i18n="zh">后 AI 时代的激励体系：让每个人去创造，创造出来的东西还能被买单</span></h3>
+    <p class="q-meta"><span data-i18n="en">Since 2026 · Just started</span><span data-i18n="zh">起于 2026 · 刚开始</span></p>
+    <div data-i18n="zh" lang="zh">
+      <p>这个问题和上面「人到底要做什么」其实是连着的。AI 已经能解出 NS 方程，也能自己做量化策略去赚钱了，以后越来越多过去要靠人来做的事都会被 AI 做完，那人去做什么？我觉得人还是要去创造，但创造总得有动力，做出来的东西得有人买单。这件事在 AI 之前其实就没做好，全世界大半网站都在用的 OpenSSL，2014 年 Heartbleed 漏洞出来的时候大家才发现只靠几个人在维护，一年收到的捐款才两千美元左右。所以我想研究一套后 AI 时代的激励机制，让更多人有动力去创造有价值的东西，创造出来的东西也真的能被买单。</p>
+      <p>相关：<a href="/2026/05/02/a-product-with-users-is-not-a-business/">有用户，不代表这是一个 Business</a></p>
+    </div>
+    <div data-i18n="en" lang="en">
+      <p>This question grows out of the one above about what people should do. AI can already solve the Navier-Stokes problem and build quant strategies that make money on its own, and more and more of the work that used to take people will be done by AI. So what do people do? I think people still have to create, but they need a reason to, and someone has to pay for what they make. We weren't doing this well even before AI. OpenSSL is used by most of the world's websites, but when the Heartbleed bug came out in 2014, people found that it was maintained by only a handful of people and got about $2,000 a year in donations. So I want to study an incentive system for the post-AI era that gives more people a reason to make things of value, and makes sure what they make actually gets paid for.</p>
+      <p>Related: <a href="/2026/05/02/a-product-with-users-is-not-a-business/">有用户，不代表这是一个 Business</a> (in Chinese)</p>
+    </div>
+
+    <hr>
+    <p data-i18n="zh" lang="zh">如果你也在想这些问题，欢迎写邮件约个时间聊聊：<a href="mailto:guandachenjustin@gmail.com">guandachenjustin@gmail.com</a>。</p>
+    <p data-i18n="en" lang="en">If you're thinking about these questions too, email me and let's find a time to talk: <a href="mailto:guandachenjustin@gmail.com">guandachenjustin@gmail.com</a>.</p>
+
+    <h3><span data-i18n="en">Updates</span><span data-i18n="zh">更新记录</span></h3>
+    <ul>
+      <li><span data-i18n="en">2026-09-13 Wrote down these four questions.</span><span data-i18n="zh">2026-09-13 写下这四个问题。</span></li>
+    </ul>
+  </article>
+</main>

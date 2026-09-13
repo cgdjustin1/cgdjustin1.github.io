@@ -6,7 +6,7 @@ permalink: /tags/
 ---
 
 <main class="blog-list-wrapper">
-  <h2>Tags</h2>
+  <h2><span data-i18n="en">Tags</span><span data-i18n="zh">标签</span></h2>
 
   {% assign sorted_tags = site.tags | sort %}
   {% for tag in sorted_tags %}
@@ -14,7 +14,7 @@ permalink: /tags/
   <div class="blog-timeline">
     {% for post in tag[1] %}
     <a href="{{ post.url | relative_url }}" class="blog-entry">
-      <time>{{ post.date | date: "%b %d, %Y" }}</time>
+      <time>{% include date.html date=post.date %}</time>
       <div class="blog-entry-content">
         <h3>{{ post.title }}</h3>
         <p>{{ post.description }}</p>

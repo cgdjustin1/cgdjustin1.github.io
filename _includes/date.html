@@ -1,0 +1,15 @@
+{%- comment -%}
+  A post date in both languages; the language toggle shows one of them.
+  style: "short" drops the year, "long" spells out the month.
+{%- endcomment -%}
+{%- if include.style == "short" -%}
+  {%- assign date_en = include.date | date: "%b %d" -%}
+  {%- assign date_zh = include.date | date: "%-m月%-d日" -%}
+{%- elsif include.style == "long" -%}
+  {%- assign date_en = include.date | date: "%B %d, %Y" -%}
+  {%- assign date_zh = include.date | date: "%Y年%-m月%-d日" -%}
+{%- else -%}
+  {%- assign date_en = include.date | date: "%b %d, %Y" -%}
+  {%- assign date_zh = include.date | date: "%Y年%-m月%-d日" -%}
+{%- endif -%}
+<span data-i18n="en">{{ date_en }}</span><span data-i18n="zh">{{ date_zh }}</span>

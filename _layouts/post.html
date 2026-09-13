@@ -4,7 +4,7 @@ layout: default
 <main class="article-wrapper">
   <header class="blog-header">
     <h1>{{ page.title }}</h1>
-    <p class="date">{{ page.date | date: "%B %d, %Y" }} · {% include reading-time.html content=content lang=page.lang %}</p>
+    <p class="date">{% include date.html date=page.date style="long" %} · {% include reading-time.html content=content lang=page.lang %}</p>
   </header>
 
   <article class="post">
@@ -13,12 +13,12 @@ layout: default
 
   {% if page.previous or page.next %}
   <div class="post-nav">
-    {% if page.previous %}<a class="post-nav-prev" href="{{ page.previous.url | relative_url }}"><span>← Older</span>{{ page.previous.title }}</a>{% endif %}
-    {% if page.next %}<a class="post-nav-next" href="{{ page.next.url | relative_url }}"><span>Newer →</span>{{ page.next.title }}</a>{% endif %}
+    {% if page.previous %}<a class="post-nav-prev" href="{{ page.previous.url | relative_url }}"><span><span data-i18n="en">← Older</span><span data-i18n="zh">← 上一篇</span></span>{{ page.previous.title }}</a>{% endif %}
+    {% if page.next %}<a class="post-nav-next" href="{{ page.next.url | relative_url }}"><span><span data-i18n="en">Newer →</span><span data-i18n="zh">下一篇 →</span></span>{{ page.next.title }}</a>{% endif %}
   </div>
   {% endif %}
 
   <div class="back-link">
-    <a href="{{ '/blog/' | relative_url }}">← All posts</a>
+    <a href="{{ '/blog/' | relative_url }}"><span data-i18n="en">← All posts</span><span data-i18n="zh">← 全部文章</span></a>
   </div>
 </main>

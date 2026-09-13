@@ -21,11 +21,11 @@ layout: default
   {% assign tagged_posts = site.tags[page.tag] %}
   {% if tagged_posts.size > 0 %}
   <section class="project-blog-section">
-    <h2>Blog Posts</h2>
+    <h2><span data-i18n="en">Blog Posts</span><span data-i18n="zh">相关文章</span></h2>
     <div class="blog-timeline">
       {% for post in tagged_posts %}
       <a href="{{ post.url | relative_url }}" class="blog-entry">
-        <time>{{ post.date | date: "%b %d, %Y" }}</time>
+        <time>{% include date.html date=post.date %}</time>
         <div class="blog-entry-content">
           <h3>{{ post.title }}</h3>
           <p>{{ post.description }}</p>

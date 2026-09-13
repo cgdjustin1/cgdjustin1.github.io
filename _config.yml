@@ -6,3 +6,9 @@ markdown: kramdown
 permalink: pretty
 plugins:
   - jekyll-feed
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post

@@ -988,12 +988,14 @@ main, main.hero {
   margin: 2.2em 0 0.8em;
 }
 
-.post:lang(zh) {
+/* Chinese posts, and the Chinese half of bilingual pages */
+.post:lang(zh),
+.post > [data-i18n="zh"] {
   font-size: 17px;
   line-height: 1.9;
 }
 
-.post:lang(zh) p {
+.post p:lang(zh) {
   margin-bottom: 1.2em;
 }
 
@@ -1087,14 +1089,25 @@ main, main.hero {
    =========================== */
 /* Chinese text takes system CJK fonts for its Latin letters too, so a line doesn't switch typefaces mid-sentence */
 .post:lang(zh),
-.post:lang(zh) h2,
-.post:lang(zh) h3,
+.post h2:lang(zh),
+.post h3:lang(zh),
 .blog-header h1:lang(zh),
 .featured-post:lang(zh) h2,
 .featured-post:lang(zh) p,
 .blog-entry-content:lang(zh) h3,
-.blog-entry-content:lang(zh) p {
+.blog-entry-content:lang(zh) p,
+[data-i18n="zh"],
+[data-i18n="zh"] h2,
+[data-i18n="zh"] h3 {
   font-family: var(--font-zh);
+}
+
+/* Dates and meta lines keep their monospace digits in both languages */
+time [data-i18n],
+.date [data-i18n],
+.q-meta [data-i18n],
+.blog-entry-meta [data-i18n] {
+  font-family: inherit;
 }
 
 .blog-header h1:lang(zh) {
@@ -1102,8 +1115,8 @@ main, main.hero {
 }
 
 /* CJK fonts have no italics; browsers would fake a slant */
-.post:lang(zh) em,
-.post:lang(zh) blockquote {
+.post em:lang(zh),
+.post blockquote:lang(zh) {
   font-style: normal;
 }
 
@@ -1151,5 +1164,67 @@ main, main.hero {
 
   body {
     transition: none;
+  }
+}
+
+/* Questions page */
+.q-meta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: -0.6em 0 1em;
+}
+
+/* ===========================
+   Language toggle
+   =========================== */
+/* One language is shown at a time; without JavaScript the page stays in English and the toggle is hidden */
+html:not([data-lang]) [data-i18n="zh"],
+html[data-lang="en"] [data-i18n="zh"],
+html[data-lang="zh"] [data-i18n="en"],
+html:not([data-lang]) .lang-toggle {
+  display: none !important;
+}
+
+.lang-toggle {
+  margin-left: 20px;
+  padding: 1px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.lang-toggle span {
+  font-family: inherit;
+}
+
+.lang-toggle + .theme-toggle {
+  margin-left: 8px;
+}
+
+.lang-toggle:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.lang-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .lang-toggle {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+
+  .lang-toggle + .theme-toggle {
+    margin-left: 0;
   }
 }

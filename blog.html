@@ -5,8 +5,8 @@ description: "Thoughts on life, technology, and building things."
 ---
 
 <main class="blog-list-wrapper">
-  <h2>Blog</h2>
-  <p class="blog-subtitle">Thoughts on life, technology, and building things. <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
+  <h2><span data-i18n="en">Blog</span><span data-i18n="zh">博客</span></h2>
+  <p class="blog-subtitle"><span data-i18n="en">Thoughts on life, technology, and building things.</span><span data-i18n="zh">关于生活、技术和做东西的一些想法。</span> <a href="{{ '/feed.xml' | relative_url }}">RSS</a></p>
 
   {% assign postsByYear = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
   {% for year in postsByYear %}
@@ -14,7 +14,7 @@ description: "Thoughts on life, technology, and building things."
   <div class="blog-timeline">
     {% for post in year.items %}
     <div class="blog-entry">
-      <time>{{ post.date | date: "%b %d" }}</time>
+      <time>{% include date.html date=post.date style="short" %}</time>
       <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
         <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
         {% if post.description and post.description != "" %}<p>{{ post.description }}</p>{% endif %}
