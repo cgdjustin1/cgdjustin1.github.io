@@ -1,0 +1,133 @@
+# Events for the timeline view (the "Timeline" button in the nav).
+# Posts are added automatically from _posts; everything else is listed here.
+#
+# date: "2023" (a year), "2026-01" (a month) or "2026-09-13" (a day).
+# ongoing: true draws the track through to today in the Tracks view.
+# planned: true marks something that hasn't happened yet (hollow dot).
+tracks:
+  - id: life
+    kind: life
+    en: Life
+    zh: 经历
+    events:
+      - date: "2021-10"
+        en: Started maths at Warwick
+        zh: 进华威大学读数学
+        desc_en: BSc Mathematics, University of Warwick.
+        desc_zh: 华威大学数学本科。
+      - date: "2022-07"
+        en: Summer at Guotai Junan
+        zh: 暑假在国泰君安实习
+        desc_en: Summer internship at Guotai Junan Securities.
+        desc_zh: 国泰君安证券暑期实习。
+      - date: "2023-01"
+        en: Started the CQF
+        zh: 开始读 CQF
+      - date: "2024"
+        en: First-author paper at SPML 2024
+        zh: 第一作者论文发在 SPML 2024
+        desc_en: An Improved BiGAN Model for Anomaly Detection in Finance.
+        desc_zh: 用改进的 BiGAN 做金融异常检测。
+      - date: "2024-06"
+        en: Graduated from Warwick
+        zh: 从华威毕业
+      - date: "2024-08"
+        en: Finished the CQF
+        zh: 拿到 CQF
+      - date: "2024-09"
+        en: Quant research at Causis
+        zh: 在 Causis 做量化研究
+        desc_en: Quantitative research at Causis Investment.
+        desc_zh: 在 Causis Investment 做量化研究。
+      - date: "2025-01"
+        en: Started the master's at USC
+        zh: 到 USC 读硕士
+        desc_en: MS in Applied Data Science, University of Southern California.
+        desc_zh: 南加州大学应用数据科学硕士。
+      - date: "2026-12"
+        planned: true
+        en: USC graduation (expected)
+        zh: USC 毕业（预计）
+
+  - id: atb
+    kind: project
+    en: ATB
+    zh: ATB
+    url: /projects/atb/
+    ongoing: true
+    events:
+      - date: "2023-06"
+        en: Started ATB, alone at first
+        zh: 一个人开始做 ATB
+        desc_en: In my second year at Warwick, writing backtests on my own. Later a six-person research team.
+        desc_zh: 在 Warwick 读大二的时候一个人写回测，后来变成六个人的研究团队。
+
+  - id: topolo
+    kind: project
+    en: Topolo
+    zh: Topolo
+    url: /projects/topolo/
+    ongoing: true
+    events:
+      - date: "2026-01"
+        en: Founded Topolo
+        zh: 创办 Topolo
+      - date: "2026-02"
+        en: Started building AutoQuant
+        zh: 开始做 AutoQuant
+
+  - id: autoquant
+    kind: question
+    en: How can AutoQuant Research produce good strategies?
+    zh: AutoQuant Research 怎么产出好的策略？
+    url: /questions/#autoquant
+    ongoing: true
+    events:
+      - date: "2023"
+        en: Started asking how to produce good strategies
+        zh: 开始想怎么才能产出好的策略
+
+  - id: humans
+    kind: question
+    en: Once AI does all the work, what should people learn and do?
+    zh: AI 把事都做完之后，人学什么、做什么？
+    url: /questions/#humans
+    ongoing: true
+    events:
+      - date: "2023"
+        en: Started asking what our generation should do
+        zh: 开始想我们这代人该做什么
+
+  - id: production
+    kind: question
+    en: How can AI really be put to work across the economy?
+    zh: 怎么让 AI 真正参与到社会生产里？
+    url: /questions/#production
+    ongoing: true
+    events:
+      - date: "2026"
+        en: Started asking why companies still aren't using AI
+        zh: 开始想为什么企业还没真正用上 AI
+
+  - id: incentives
+    kind: question
+    en: An incentive system for the post-AI era
+    zh: 后 AI 时代的激励体系
+    url: /questions/#incentives
+    ongoing: true
+    events:
+      - date: "2026"
+        en: Started asking how people stay motivated to create
+        zh: 开始想怎么让人还有动力去创造
+
+  - id: questions
+    kind: question
+    en: Questions page
+    zh: 问题页
+    url: /questions/
+    events:
+      - date: "2026-09-13"
+        en: Wrote the four questions on this site
+        zh: 把四个问题写在网站上
+        desc_en: The questions I'm chasing, with why I care about each one.
+        desc_zh: 我在追的几个问题，以及为什么在意它们。

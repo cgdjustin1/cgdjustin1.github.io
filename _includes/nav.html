@@ -7,6 +7,10 @@
     <a href="/questions/"{% if page.url contains '/questions' %} class="active"{% endif %}><span data-i18n="en">Questions</span><span data-i18n="zh">问题</span></a>
     <a href="/projects/"{% if page.url contains '/projects' %} class="active"{% endif %}><span data-i18n="en">Projects</span><span data-i18n="zh">项目</span></a>
     <a href="/about/"{% if page.url contains '/about' %} class="active"{% endif %}><span data-i18n="en">About</span><span data-i18n="zh">关于</span></a>
+    <button class="tl-open" type="button" aria-label="Timeline view / 时间线视图">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12h20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="6" cy="12" r="2.4" fill="currentColor"/><circle cx="13" cy="12" r="2.4" fill="currentColor"/><circle cx="19" cy="12" r="2.4" fill="currentColor"/></svg>
+      <span data-i18n="en">Timeline</span><span data-i18n="zh">时间线</span>
+    </button>
     <button class="lang-toggle" type="button" aria-label="Switch language / 切换语言"><span data-i18n="en" lang="zh">中文</span><span data-i18n="zh" lang="en">EN</span></button>
     <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>
