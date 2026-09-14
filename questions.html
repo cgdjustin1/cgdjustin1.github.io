@@ -18,7 +18,7 @@ permalink: /questions/
     </div>
     <div data-i18n="en" lang="en">
       <p>I've been doing quant strategy research for almost three years. It started in my second year at Warwick, when I wrote backtests by myself and properly testing a few ideas in a month was already good. Later, when I was leading the team at ATB, we split a strategy into six parts: entry, exit, risk, position sizing, stop loss and take profit, and execution timing. We put them together in YAML and could test a hundred or more ideas a month, but we also found that the more you test, the easier it is to fool yourself. One month we came up with more than thirty ideas for improvements, and only a few of them survived. This year I started letting AI write the signal code, run the backtest and score the result by itself, and a strategy only goes into the library after it passes the checks. It's a lot faster, but new problems came with it. Once, a strategy's script had a default parameter that was different from the one used in the portfolio. It threw no error and just silently ran as a different version, and I only caught it by reconciling the trades one by one. DeepMind's AlphaEvolve also has a model write code, lets a machine score it and evolves it round after round, and it found a way to multiply 4×4 matrices with 48 multiplications, better than Strassen's 1969 method. So could a machine find strategies the same way, round after round? I want to study how AutoQuant can produce strategies that are really good, how to tell whether what the machine finds actually works or just happened to fit that stretch of history, and how to make it remember what worked and what failed so each round is smarter than the one before.</p>
-      <p>Related: <a href="/2026/09/12/silent-errors/">不报错，只算错</a> (in Chinese)</p>
+      <p>Related: <a href="/2026/09/12/silent-errors/">No errors, just wrong numbers</a></p>
     </div>
 
     <h3 id="humans"><span data-i18n="en">Once AI does all the work, what should people learn and do?</span><span data-i18n="zh">AI 把事都做完之后，人学什么、做什么？</span></h3>
@@ -49,7 +49,7 @@ permalink: /questions/
     </div>
     <div data-i18n="en" lang="en">
       <p>This question grows out of the one above about what people should do. AI can already solve the Navier-Stokes problem and build quant strategies that make money on its own, and more and more of the work that used to take people will be done by AI. So what do people do? I think people still have to create, but they need a reason to, and someone has to pay for what they make. We weren't doing this well even before AI. OpenSSL is used by most of the world's websites, but when the Heartbleed bug came out in 2014, people found that it was maintained by only a handful of people and got about $2,000 a year in donations. So I want to study an incentive system for the post-AI era that gives more people a reason to make things of value, and makes sure what they make actually gets paid for.</p>
-      <p>Related: <a href="/2026/05/02/a-product-with-users-is-not-a-business/">有用户，不代表这是一个 Business</a> (in Chinese)</p>
+      <p>Related: <a href="/2026/05/02/a-product-with-users-is-not-a-business/">Having users doesn't make it a business</a></p>
     </div>
 
     <hr>
