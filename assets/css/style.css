@@ -91,6 +91,11 @@ a:hover {
   background: var(--color-selection);
 }
 
+/* Elements marked hidden stay hidden even when a class gives them a display value */
+[hidden] {
+  display: none !important;
+}
+
 /* ===========================
    Header / Nav
    =========================== */
@@ -1261,6 +1266,11 @@ body.tl-open > :not(.tl-overlay) {
 
 .tl-overlay.is-open {
   opacity: 1;
+}
+
+/* While it fades out, taps go through to the page underneath */
+.tl-overlay:not(.is-open) {
+  pointer-events: none;
 }
 
 .tl-overlay.no-anim * {

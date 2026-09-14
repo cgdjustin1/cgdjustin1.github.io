@@ -133,7 +133,7 @@
   // ---- state ----
   var overlay, stage, canvas, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
   var sky, starsCanvas, cursor, readout, futureAxis, beams, horizonEl, horizonEv, nowPanel, nowLine;
-  var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null;
+  var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null, pushed = false;
   var W = 0, H = 0, padL = 48, padR = 48, axisY = 0;
   var enabled = {};
   KINDS.forEach(function (k) { enabled[k.id] = true; });
@@ -774,7 +774,9 @@
     if (isOpen) return;
     isOpen = true;
     // Opening adds a history entry, so the back button or swipe closes the timeline instead of leaving the page
-    if (!fromHistory) { try { history.pushState({ tl: true }, '', location.href); } catch (e) {} }
+    if (!fromHistory) {
+      try { history.pushState({ tl: true }, '', location.href); pushed = true; } catch (e) {}
+    }
     lastFocus = document.activeElement;
     overlay.hidden = false;
     stage.classList.toggle('is-tracks', mode === 'tracks');
@@ -790,13 +792,16 @@
 
   function close() {
     if (!isOpen) return;
-    if (history.state && history.state.tl) { history.back(); return; }
+    // Step back over the entry this page added; if the timeline was restored on load, just clear the flag
+    if (pushed && history.state && history.state.tl) { history.back(); return; }
+    if (history.state && history.state.tl) { try { history.replaceState(null, '', location.href); } catch (e) {} }
     finishClose();
   }
 
   function finishClose() {
     if (!isOpen) return;
     isOpen = false;
+    pushed = false;
     panning = null;
     cancelAnimationFrame(starsRaf);
     hideCard();
@@ -812,7 +817,7 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) close(); });
   window.addEventListener('popstate', function () {
     if (isOpen) finishClose();
-    else if (history.state && history.state.tl) open(true);
+    else if (history.state && history.state.tl) { open(true); pushed = true; }
   });
   var resizeTimer;
   window.addEventListener('resize', function () {
