@@ -1258,6 +1258,7 @@ html:not([data-lang]) .lang-toggle {
 [data-kind="question"] { --k: var(--tl-question); }
 [data-kind="project"] { --k: var(--tl-project); }
 [data-kind="life"] { --k: var(--tl-life); }
+[data-kind="horizon"] { --k: var(--color-accent); }
 
 /* Nav button */
 nav .tl-open {
@@ -1703,6 +1704,130 @@ body.tl-open > :not(.tl-overlay) {
   45% { left: 100%; opacity: 0.9; }
   50% { opacity: 0; }
   100% { left: 100%; opacity: 0; }
+}
+
+/* Past today the axis is only a dashed line; open questions run on as beams to the horizon */
+.tl-axis-future {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  border-top: 1px dashed rgba(106, 176, 255, 0.45);
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.2, 1), left 0.6s, width 0.6s;
+}
+
+.tl-beams {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.tl-beams path {
+  fill: none;
+  stroke: var(--k);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.65;
+  transition: opacity 0.3s;
+}
+
+.tl-beams path.is-flowing {
+  stroke-dasharray: 5 7;
+  animation: tl-flow 1.4s linear infinite;
+}
+
+.tl-beams path.is-off {
+  opacity: 0 !important;
+}
+
+.tl-beams path.is-hot,
+.is-horizon-hot .tl-beams path {
+  opacity: 1;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 4px var(--k));
+}
+
+@keyframes tl-flow {
+  to { stroke-dashoffset: -12; }
+}
+
+.tl-horizon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+
+.tl-horizon-star {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 30%, var(--color-accent) 40% 100%);
+  box-shadow: 0 0 16px var(--color-accent), 0 0 40px var(--color-accent-line);
+  animation: tl-star 2.6s ease-in-out infinite;
+}
+
+.tl-horizon-star::before,
+.tl-horizon-star::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  width: 1px;
+  height: 38px;
+  margin-left: -0.5px;
+  background: linear-gradient(transparent, #fff, transparent);
+  opacity: 0.8;
+}
+
+.tl-horizon-star::after {
+  transform: rotate(90deg);
+}
+
+@keyframes tl-star {
+  0%, 100% { box-shadow: 0 0 16px var(--color-accent), 0 0 40px var(--color-accent-line); }
+  50% { box-shadow: 0 0 28px var(--color-accent), 0 0 64px var(--color-accent-line); }
+}
+
+.tl-horizon-label {
+  position: absolute;
+  right: -6px;
+  top: 16px;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: right;
+  text-shadow: 0 0 14px var(--color-accent-line);
+}
+
+.is-tracks .tl-horizon-label {
+  right: 18px;
+  top: -10px;
+}
+
+.tl-horizon:hover .tl-horizon-label {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-accent);
+}
+
+.tl-horizon-label [data-i18n="zh"] {
+  font-family: var(--font-zh);
+}
+
+.tl-tick.is-future > span {
+  opacity: 0.55;
 }
 
 .is-entering .tl-axis > i {
@@ -2233,6 +2358,10 @@ body.tl-open > :not(.tl-overlay) {
   .tl-card {
     width: 240px;
   }
+
+  .tl-horizon-label {
+    font-size: 13px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2252,7 +2381,9 @@ body.tl-open > :not(.tl-overlay) {
   .tl-axis > b,
   .tl-now::after,
   .tl-dot::before,
-  .tl-node.is-planned .tl-dot {
+  .tl-node.is-planned .tl-dot,
+  .tl-beams path.is-flowing,
+  .tl-horizon-star {
     animation: none;
   }
 }

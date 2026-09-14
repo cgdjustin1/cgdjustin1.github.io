@@ -4,6 +4,18 @@
 # date: "2023" (a year), "2026-01" (a month) or "2026-09-13" (a day).
 # ongoing: true draws the track through to today in the Tracks view.
 # planned: true marks something that hasn't happened yet (hollow dot).
+# open: true continues a track past today as a beam to the horizon.
+#
+# The axis runs future_years past today and ends at the horizon, which is the
+# invitation at the far right of the timeline.
+future_years: 3
+horizon:
+  en: Let's build the post-AI society together
+  zh: 一起构建后 AI 社会
+  desc_en: I'm still working on these questions. If you're thinking about them too, email me and let's find a time to talk.
+  desc_zh: 这些问题我还在解。如果你也在想，欢迎写邮件约个时间聊聊。
+  url: mailto:guandachenjustin@gmail.com
+
 tracks:
   - id: life
     kind: life
@@ -82,6 +94,7 @@ tracks:
     zh: AutoQuant Research 怎么产出好的策略？
     url: /questions/#autoquant
     ongoing: true
+    open: true
     events:
       - date: "2023"
         en: Started asking how to produce good strategies
@@ -93,6 +106,7 @@ tracks:
     zh: AI 把事都做完之后，人学什么、做什么？
     url: /questions/#humans
     ongoing: true
+    open: true
     events:
       - date: "2023"
         en: Started asking what our generation should do
@@ -104,6 +118,7 @@ tracks:
     zh: 怎么让 AI 真正参与到社会生产里？
     url: /questions/#production
     ongoing: true
+    open: true
     events:
       - date: "2026"
         en: Started asking why companies still aren't using AI
@@ -115,6 +130,7 @@ tracks:
     zh: 后 AI 时代的激励体系
     url: /questions/#incentives
     ongoing: true
+    open: true
     events:
       - date: "2026"
         en: Started asking how people stay motivated to create

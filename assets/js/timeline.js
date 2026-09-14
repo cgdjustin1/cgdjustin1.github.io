@@ -94,12 +94,21 @@
   if (!events.length) return;
 
   var now = Date.now();
+  var nowYear = new Date(now).getUTCFullYear();
+  var horizonData = data.horizon || null;
+  var futureYears = Number(data.future_years) || 3;
+  var openTracks = tracks.filter(function (t) { return t.open && t.items.length; });
   var yearStart = new Date(events[0].time).getUTCFullYear();
-  var yearEnd = new Date(Math.max(now, events[events.length - 1].time)).getUTCFullYear() + 1;
+  var lastYear = Math.max(nowYear, new Date(events[events.length - 1].time).getUTCFullYear());
+  // With a horizon the axis runs on into the future and ends at the invitation; otherwise just past the last event
+  var yearEnd = horizonData ? nowYear + futureYears + 1 : lastYear + 1;
   var t0 = Date.UTC(yearStart, 0, 1);
   var t1 = Date.UTC(yearEnd, 0, 1);
   var years = [];
-  for (var y = yearStart; y <= yearEnd; y++) years.push({ year: y, time: Date.UTC(y, 0, 1) });
+  for (var y = yearStart; y <= yearEnd; y++) {
+    if (horizonData && y === yearEnd) break;
+    years.push({ year: y, time: Date.UTC(y, 0, 1), future: y > nowYear });
+  }
 
   // The axis is half calendar time, half event order, so a crowded year gets more room than an empty one
   var ranks = [[t0, 0]];
@@ -123,7 +132,7 @@
 
   // ---- state ----
   var overlay, stage, canvas, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
-  var sky, starsCanvas, cursor, readout;
+  var sky, starsCanvas, cursor, readout, futureAxis, beams, horizonEl, horizonEv;
   var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null;
   var W = 0, H = 0, padL = 48, padR = 48, axisY = 0;
   var enabled = {};
@@ -214,6 +223,7 @@
           '<div class="tl-rows"></div><div class="tl-ticks"></div>' +
           '<div class="tl-axis"><i></i><b></b></div>' +
           '<div class="tl-now"><span>' + both('now', '现在') + '</span></div>' +
+          '<div class="tl-axis-future"></div><svg class="tl-beams" aria-hidden="true"></svg>' +
           '<div class="tl-hot"></div><div class="tl-cursor"><span class="tl-readout"></span></div><div class="tl-nodes"></div>' +
         '</div></div>' +
       '</div>' +
@@ -227,6 +237,8 @@
     starsCanvas = overlay.querySelector('.tl-stars');
     cursor = overlay.querySelector('.tl-cursor');
     readout = overlay.querySelector('.tl-readout');
+    futureAxis = overlay.querySelector('.tl-axis-future');
+    beams = overlay.querySelector('.tl-beams');
     nodesBox = overlay.querySelector('.tl-nodes');
     axis = overlay.querySelector('.tl-axis');
     nowMark = overlay.querySelector('.tl-now');
@@ -254,7 +266,7 @@
     var ticks = overlay.querySelector('.tl-ticks');
     years.forEach(function (yr, i) {
       yr.line = el('div', 'tl-vline', '<i></i>');
-      yr.tick = el('div', 'tl-tick' + (i === 0 ? ' is-first' : i === years.length - 1 ? ' is-last' : ''), '<span>' + yr.year + '</span>');
+      yr.tick = el('div', 'tl-tick' + (i === 0 ? ' is-first' : i === years.length - 1 && !horizonData ? ' is-last' : '') + (yr.future ? ' is-future' : ''), '<span>' + yr.year + '</span>');
       ticks.appendChild(yr.line);
       ticks.appendChild(yr.tick);
     });
@@ -267,6 +279,31 @@
       t.rowLine = t.row.lastChild;
       rows.appendChild(t.row);
     });
+
+    // Open questions carry on past today as beams; the horizon is where they lead
+    openTracks.forEach(function (t) {
+      t.beam = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      t.beam.setAttribute('data-kind', t.kind);
+      t.beam.classList.add('is-flowing');
+      beams.appendChild(t.beam);
+    });
+    if (horizonData) {
+      horizonEv = { horizon: true, kind: 'horizon', track: null, en: horizonData.en || '', zh: horizonData.zh || horizonData.en || '', descEn: horizonData.desc_en || '', descZh: horizonData.desc_zh || '', url: horizonData.url || '', x: 0, y: 0 };
+      horizonEl = el('a', 'tl-horizon', '<i class="tl-horizon-star"></i><span class="tl-horizon-label">' + both(esc(horizonEv.en), esc(horizonEv.zh)) + ' \u2192</span>');
+      horizonEl.dataset.kind = 'horizon';
+      if (horizonEv.url) horizonEl.href = horizonEv.url;
+      if (touch) {
+        horizonEl.addEventListener('click', function (e) {
+          if (cardFor !== horizonEv) { e.preventDefault(); showCard(horizonEv); }
+        });
+      } else {
+        horizonEl.addEventListener('mouseenter', function () { showCard(horizonEv); });
+        horizonEl.addEventListener('mouseleave', hideCard);
+      }
+      horizonEl.addEventListener('focus', function () { showCard(horizonEv); });
+      horizonEl.addEventListener('blur', hideCard);
+      canvas.appendChild(horizonEl);
+    }
 
     events.forEach(function (ev) {
       ev.node = el(ev.url ? 'a' : 'div', 'tl-node', '<i class="tl-dot" style="--bd:' + (Math.random() * 3).toFixed(2) + 's"></i>');
@@ -355,8 +392,8 @@
   }
 
   function setSub(n) {
-    var span = yearStart + ' → ' + (yearEnd - 1);
-    sub.innerHTML = both(n + ' events · ' + span, n + ' 个节点 · ' + span);
+    var end = horizonData ? both('future', '未来') : String(lastYear);
+    sub.innerHTML = both(n + ' events · ' + yearStart + ' → ', n + ' 个节点 · ' + yearStart + ' → ') + end;
   }
   function countUp(n) {
     var started = performance.now();
@@ -385,9 +422,14 @@
     var visible = events.filter(function (ev) { return enabled[ev.kind]; });
 
     axisY = axisMode ? Math.round(H * 0.5) : 30;
+    var xNow = xOf(now), xEnd = W - padR;
+    // The beam is solid up to today and dashed beyond it
     axis.style.left = padL + 'px';
-    axis.style.width = (W - padL - padR) + 'px';
+    axis.style.width = (Math.min(xNow, xEnd) - padL) + 'px';
     axis.style.transform = 'translateY(' + axisY + 'px)';
+    futureAxis.style.left = xNow + 'px';
+    futureAxis.style.width = Math.max(0, xEnd - xNow) + 'px';
+    futureAxis.style.transform = 'translateY(' + axisY + 'px)';
     var lastTickX = -Infinity;
     years.forEach(function (yr) {
       yr.x = xOf(yr.time);
@@ -412,6 +454,37 @@
       t.rowLine.style.left = x1 + 'px';
       t.rowLine.style.width = Math.max(0, x2 - x1) + 'px';
     });
+
+    // Beams from today to the horizon: a spindle of curves in axis mode, a straight run along each row in tracks mode
+    beams.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    beams.setAttribute('width', W);
+    beams.setAttribute('height', H);
+    openTracks.forEach(function (t, i) {
+      var d;
+      if (axisMode) {
+        var spread = (i - (openTracks.length - 1) / 2) * 30;
+        var x2 = xEnd - 10, dx = x2 - xNow;
+        d = 'M' + xNow + ',' + axisY +
+          ' C' + (xNow + dx * 0.4) + ',' + (axisY + spread * 1.8) + ' ' + (x2 - dx * 0.4) + ',' + (axisY + spread * 1.8) + ' ' + x2 + ',' + axisY;
+      } else {
+        d = 'M' + xNow + ',' + t.y + ' L' + xEnd + ',' + t.y;
+      }
+      t.beam.setAttribute('d', d);
+      t.beam.classList.toggle('is-off', !enabled[t.kind]);
+    });
+    var limits = {};
+    if (horizonEl) {
+      horizonEv.x = xEnd;
+      horizonEv.y = axisY;
+      horizonEl.style.transform = 'translate(' + xEnd + 'px,' + axisY + 'px)';
+      // Its label hangs below the axis at the far right, so event labels on that level stop short of it,
+      // and year labels under it are dropped
+      var hw = horizonEl.lastChild.offsetWidth;
+      if (axisMode) {
+        limits['axis:down0'] = xEnd - hw - 16;
+        years.forEach(function (yr) { if (yr.x > xEnd - hw - 12) yr.tick.classList.add('is-crowded'); });
+      }
+    }
 
     // Labels go into levels above and below the line, nearest level first; a label that fits nowhere is hidden.
     // In tracks mode the rows are close together, so a label sits on the line to the right of its dot, or just above it.
@@ -443,6 +516,7 @@
         var key = rowKey + ':' + order[j][0] + order[j][1];
         lx = order[j][0] === 'right' ? x + 12 : clamp(x - w / 2, 4, W - w - 4);
         if (lx + w > W - 4) continue;
+        if (limits[key] != null && lx + w > limits[key]) continue;
         // A label on the line must end before the row's next dot
         if (order[j][0] === 'right' && lx + w + 10 > nextX) continue;
         if (occupied[key] == null || occupied[key] + 8 <= lx) {
@@ -559,6 +633,34 @@
       ev.leader.animate([{ opacity: 0 }, { opacity: 0.4 }], { duration: 400, delay: land + 100, fill: 'backwards' });
       total = Math.max(total, land + 650);
     });
+    var beamStart = scrollable ? 2900 : 1900;
+    openTracks.forEach(function (t, i) {
+      if (!enabled[t.kind]) return;
+      var len = t.beam.getTotalLength();
+      t.beam.classList.remove('is-flowing');
+      t.beam.style.strokeDasharray = len;
+      var a = t.beam.animate([
+        { strokeDashoffset: len, opacity: 0.2 },
+        { strokeDashoffset: 0, opacity: 1 }
+      ], { duration: 1100, delay: beamStart + i * 120, easing: 'ease-out', fill: 'backwards' });
+      a.onfinish = function () {
+        t.beam.style.strokeDasharray = '';
+        t.beam.classList.add('is-flowing');
+      };
+      total = Math.max(total, beamStart + i * 120 + 1100);
+    });
+    if (horizonEl) {
+      horizonEl.firstChild.animate([
+        { transform: 'scale(0)', opacity: 0 },
+        { transform: 'scale(1.8)', opacity: 1, offset: 0.6 },
+        { transform: 'scale(1)', opacity: 1 }
+      ], { duration: 700, delay: beamStart + 900, easing: 'ease-out', fill: 'backwards' });
+      horizonEl.lastChild.animate([
+        { opacity: 0, transform: 'translateY(6px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], { duration: 500, delay: beamStart + 1150, easing: 'ease-out', fill: 'backwards' });
+      total = Math.max(total, beamStart + 1700);
+    }
     setTimeout(function () {
       overlay.classList.remove('is-entering');
       overlay.querySelectorAll('.tl-ghost').forEach(function (g) { g.remove(); });
@@ -569,13 +671,23 @@
     cardFor = ev;
     card.dataset.kind = ev.kind;
     var t = ev.track, k = kindOf(ev.kind);
-    var trackName = (t.kind === 'question' || t.kind === 'project') ? ' · ' + both(esc(t.en), esc(t.zh)) : '';
+    var kindLine, dateLine, openLine;
+    if (ev.horizon) {
+      kindLine = both('Future', '未来');
+      dateLine = both('From today on', '从现在起');
+      openLine = both('Write to me →', '写邮件给我 →');
+      overlay.classList.add('is-horizon-hot');
+    } else {
+      kindLine = both(k.en, k.zh) + ((t.kind === 'question' || t.kind === 'project') ? ' · ' + both(esc(t.en), esc(t.zh)) : '');
+      dateLine = both(longDate(ev.date, 'en'), longDate(ev.date, 'zh')) + (ev.planned ? both(' · planned', ' · 计划中') : '');
+      openLine = both('Open →', '打开 →');
+    }
     card.innerHTML =
-      '<div class="tl-card-kind" data-kind="' + ev.kind + '"><i></i>' + both(k.en, k.zh) + trackName + '</div>' +
-      '<div class="tl-card-date">' + both(longDate(ev.date, 'en'), longDate(ev.date, 'zh')) + (ev.planned ? both(' · planned', ' · 计划中') : '') + '</div>' +
+      '<div class="tl-card-kind" data-kind="' + ev.kind + '"><i></i>' + kindLine + '</div>' +
+      '<div class="tl-card-date">' + dateLine + '</div>' +
       '<div class="tl-card-title">' + both(esc(ev.en), esc(ev.zh)) + '</div>' +
       (ev.descEn || ev.descZh ? '<div class="tl-card-desc">' + both(esc(ev.descEn), esc(ev.descZh)) + '</div>' : '') +
-      (ev.url ? '<div class="tl-card-open">' + both('Open →', '打开 →') + '</div>' : '');
+      (ev.url ? '<div class="tl-card-open">' + openLine + '</div>' : '');
     card.hidden = false;
     var sr = stage.getBoundingClientRect();
     var cw = card.offsetWidth, ch = card.offsetHeight;
@@ -583,8 +695,10 @@
     var top = sr.top + ev.y + 20;
     if (top + ch > window.innerHeight - 8) top = sr.top + ev.y - ch - 20;
     card.style.transform = 'translate(' + Math.round(left) + 'px,' + Math.round(top) + 'px)';
+    if (!t) return;
     t.items.forEach(function (o) { o.node.classList.add('is-hot'); });
     t.row.classList.add('is-hot');
+    if (t.beam) t.beam.classList.add('is-hot');
     if (mode === 'axis' && (t.items.length > 1 || t.ongoing)) {
       var x1 = t.items[0].x, x2 = t.ongoing ? xOf(now) : t.items[t.items.length - 1].x;
       hot.dataset.kind = ev.kind;
@@ -598,8 +712,12 @@
   function hideCard() {
     if (!cardFor) return;
     var t = cardFor.track;
-    t.items.forEach(function (o) { o.node.classList.remove('is-hot'); });
-    t.row.classList.remove('is-hot');
+    if (t) {
+      t.items.forEach(function (o) { o.node.classList.remove('is-hot'); });
+      t.row.classList.remove('is-hot');
+      if (t.beam) t.beam.classList.remove('is-hot');
+    }
+    overlay.classList.remove('is-horizon-hot');
     hot.classList.remove('is-on');
     card.hidden = true;
     cardFor = null;
