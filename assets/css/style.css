@@ -972,11 +972,15 @@ main, main.hero {
   color: var(--color-text);
 }
 
-.post-nav a span {
+.post-nav-label {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--color-text-muted);
   margin-bottom: 4px;
+}
+
+.post-nav-label [data-i18n] {
+  font-family: inherit;
 }
 
 .post-nav-next {
@@ -1057,6 +1061,49 @@ time [data-i18n],
 .q-meta [data-i18n],
 .blog-entry-meta [data-i18n] {
   font-family: inherit;
+}
+
+/* Posts written in Chinese: their English version, or a label while there isn't one */
+.lang-pill {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: var(--color-text-muted);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.post-lang-note {
+  margin: 8px 0 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* The English version would otherwise inherit the Chinese typography of the page around it */
+.post > [data-i18n="en"] {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.blog-header h1 [data-i18n="en"] {
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+
+.featured-post h2 [data-i18n="en"]:not(.lang-pill),
+.featured-post p [data-i18n="en"],
+.blog-entry-content h3 [data-i18n="en"]:not(.lang-pill),
+.blog-entry-content p [data-i18n="en"] {
+  font-family: var(--font-sans);
 }
 
 .blog-header h1:lang(zh) {

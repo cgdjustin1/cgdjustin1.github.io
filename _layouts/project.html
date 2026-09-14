@@ -26,11 +26,11 @@ layout: default
       {% for post in tagged_posts %}
       <a href="{{ post.url | relative_url }}" class="blog-entry">
         <time>{% include date.html date=post.date %}</time>
-        <div class="blog-entry-content">
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.description }}</p>
+        <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
+          <h3>{% include post-title.html post=post %}</h3>
+          <p>{% include post-description.html post=post %}</p>
         </div>
-        <span class="blog-entry-meta">{% include reading-time.html content=post.content lang=post.lang short=true %}</span>
+        <span class="blog-entry-meta">{% include reading-time.html post=post short=true %}</span>
       </a>
       {% endfor %}
     </div>

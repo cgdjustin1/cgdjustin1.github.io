@@ -1,0 +1,13 @@
+{%- comment -%}
+  A post's title in the reader's language. Posts are written in Chinese in Obsidian; an English version,
+  when there is one, lives in _translations under the same file name. Without one, English readers see
+  an "In Chinese" label. Params: post, badge (pass badge=false to leave the label out).
+{%- endcomment -%}
+{%- assign pt_key = include.post.path | split: "/" | last -%}
+{%- assign pt_en = site.translations | where_exp: "t", "t.path contains pt_key" | first -%}
+{%- if pt_en -%}
+<span data-i18n="zh">{{ include.post.title }}</span><span data-i18n="en" lang="en">{{ pt_en.title }}</span>
+{%- else -%}
+{{ include.post.title }}
+{%- if include.post.lang == "zh" and include.badge != false %}<span class="lang-pill" data-i18n="en" lang="en">In Chinese</span>{% endif -%}
+{%- endif -%}

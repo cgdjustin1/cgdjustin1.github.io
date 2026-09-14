@@ -44,12 +44,15 @@ if [ "${#missing[@]}" -gt 0 ]; then
 fi
 
 changed=0
+stale=()
 for source in "$OBSIDIAN_BLOG"/????-??-??-*.md; do
   name="$(basename "$source")"
   if ! cmp -s "$source" "$JEKYLL_POSTS/$name"; then
     cp "$source" "$JEKYLL_POSTS/$name"
     echo "   ↻ $name"
     changed=1
+    # Its English version (same file name in _translations) may now be out of date
+    if [ -e "$REPO/_translations/$name" ]; then stale+=("$name"); fi
   fi
 done
 
@@ -57,6 +60,7 @@ if [ "${#missing[@]}" -gt 0 ]; then
   for name in "${missing[@]}"; do
     rm "$JEKYLL_POSTS/$name"
     echo "   ✕ $name"
+    if [ -e "$REPO/_translations/$name" ]; then echo "     _translations/$name no longer has a Chinese post; delete it too"; fi
   done
   changed=1
 fi
@@ -64,6 +68,12 @@ fi
 if [ "$changed" -eq 0 ]; then
   echo "✅ Already in sync."
   exit 0
+fi
+
+if [ "${#stale[@]}" -gt 0 ]; then
+  echo "⚠️  Changed in Obsidian but already translated; update the English version:"
+  printf '   - _translations/%s\n' "${stale[@]}"
+  echo ""
 fi
 
 echo "🏷️  Generating tag pages..."

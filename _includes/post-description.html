@@ -1,0 +1,10 @@
+{%- comment -%}
+  A post's description in the reader's language (see post-title.html). Param: post.
+{%- endcomment -%}
+{%- assign pd_key = include.post.path | split: "/" | last -%}
+{%- assign pd_en = site.translations | where_exp: "t", "t.path contains pd_key" | first -%}
+{%- if pd_en and pd_en.description -%}
+<span data-i18n="zh">{{ include.post.description }}</span><span data-i18n="en" lang="en">{{ pd_en.description }}</span>
+{%- else -%}
+{{ include.post.description }}
+{%- endif -%}

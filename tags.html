@@ -15,9 +15,9 @@ permalink: /tags/
     {% for post in tag[1] %}
     <a href="{{ post.url | relative_url }}" class="blog-entry">
       <time>{% include date.html date=post.date %}</time>
-      <div class="blog-entry-content">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.description }}</p>
+      <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
+        <h3>{% include post-title.html post=post %}</h3>
+        <p>{% include post-description.html post=post %}</p>
       </div>
     </a>
     {% endfor %}

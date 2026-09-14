@@ -6,6 +6,11 @@ markdown: kramdown
 permalink: pretty
 plugins:
   - jekyll-feed
+# English versions of posts: _translations/<same file name as the post>.md (sync-blog.sh never touches them)
+collections:
+  translations:
+    output: false
+
 defaults:
   - scope:
       path: ""

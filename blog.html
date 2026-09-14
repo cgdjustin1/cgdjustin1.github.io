@@ -16,11 +16,11 @@ description: "Thoughts on life, technology, and building things."
     <div class="blog-entry">
       <time>{% include date.html date=post.date style="short" %}</time>
       <div class="blog-entry-content" lang="{{ post.lang | default: 'en' }}">
-        <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        {% if post.description and post.description != "" %}<p>{{ post.description }}</p>{% endif %}
+        <h3><a href="{{ post.url | relative_url }}">{% include post-title.html post=post %}</a></h3>
+        {% if post.description and post.description != "" %}<p>{% include post-description.html post=post %}</p>{% endif %}
         {% if post.tags.size > 0 %}<div class="post-tags">{% for tag in post.tags %}<a href="/tags/{{ tag }}/" class="tag-pill">{{ tag }}</a>{% endfor %}</div>{% endif %}
       </div>
-      <span class="blog-entry-meta">{% include reading-time.html content=post.content lang=post.lang short=true %}</span>
+      <span class="blog-entry-meta">{% include reading-time.html post=post short=true %}</span>
     </div>
     {% endfor %}
   </div>

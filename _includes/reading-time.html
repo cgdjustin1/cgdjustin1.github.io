@@ -1,12 +1,30 @@
 {%- comment -%}
   Reading time. number_of_words cannot count Chinese (no spaces between words),
   so Chinese posts are estimated from characters instead.
+  Pass post= for a post in a list (its English version, if any, is timed on its own words),
+  or content= and lang= for the page being rendered, plus content_en= when it has an English version.
 {%- endcomment -%}
-{%- assign rt_text = include.content | strip_html | strip_newlines -%}
-{%- if include.lang == "zh" -%}
+{%- if include.post -%}
+  {%- assign rt_content = include.post.content -%}
+  {%- assign rt_lang = include.post.lang -%}
+  {%- assign rt_key = include.post.path | split: "/" | last -%}
+  {%- assign rt_en_doc = site.translations | where_exp: "t", "t.path contains rt_key" | first -%}
+  {%- assign rt_content_en = rt_en_doc.content -%}
+{%- else -%}
+  {%- assign rt_content = include.content -%}
+  {%- assign rt_lang = include.lang -%}
+  {%- assign rt_content_en = include.content_en -%}
+{%- endif -%}
+{%- assign rt_text = rt_content | strip_html | strip_newlines -%}
+{%- if rt_lang == "zh" -%}
   {%- assign rt_minutes = rt_text | size | divided_by: 450 -%}
 {%- else -%}
   {%- assign rt_minutes = rt_text | number_of_words | divided_by: 230 -%}
 {%- endif -%}
 {%- if rt_minutes < 1 -%}{%- assign rt_minutes = 1 -%}{%- endif -%}
-<span data-i18n="en">{{ rt_minutes }} min{% unless include.short %} read{% endunless %}</span><span data-i18n="zh">{{ rt_minutes }} 分钟</span>
+{%- assign rt_minutes_en = rt_minutes -%}
+{%- if rt_content_en -%}
+  {%- assign rt_minutes_en = rt_content_en | strip_html | number_of_words | divided_by: 230 -%}
+  {%- if rt_minutes_en < 1 -%}{%- assign rt_minutes_en = 1 -%}{%- endif -%}
+{%- endif -%}
+<span data-i18n="en">{{ rt_minutes_en }} min{% unless include.short %} read{% endunless %}</span><span data-i18n="zh">{{ rt_minutes }} 分钟</span>
