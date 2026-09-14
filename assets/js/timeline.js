@@ -123,6 +123,7 @@
 
   // ---- state ----
   var overlay, stage, canvas, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
+  var sky, starsCanvas, cursor, readout;
   var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null;
   var W = 0, H = 0, padL = 48, padR = 48, axisY = 0;
   var enabled = {};
@@ -133,6 +134,60 @@
     var u = 0.5 * (time - t0) / (t1 - t0) + 0.5 * rankOf(time);
     return padL + u * (W - padL - padR);
   }
+  // Inverse of xOf, by bisection (xOf is monotonic)
+  function timeAt(x) {
+    var lo = t0, hi = t1;
+    for (var i = 0; i < 40; i++) {
+      var mid = (lo + hi) / 2;
+      if (xOf(mid) < x) lo = mid; else hi = mid;
+    }
+    return (lo + hi) / 2;
+  }
+
+  // ---- starfield ----
+  var stars = [], starsRaf = 0;
+  function drawStars(ctx, w, h, advance) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#d6e4ff';
+    for (var i = 0; i < stars.length; i++) {
+      var st = stars[i];
+      if (advance) {
+        st.y -= st.s;
+        st.x += st.s * 0.35;
+        st.p += 0.025;
+        if (st.y < -2) { st.y = h + 2; st.x = Math.random() * w; }
+        if (st.x > w + 2) st.x = -2;
+      }
+      ctx.globalAlpha = 0.15 + 0.6 * st.a * (0.5 + 0.5 * Math.sin(st.p));
+      ctx.beginPath();
+      ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  function startStars() {
+    cancelAnimationFrame(starsRaf);
+    var w = overlay.clientWidth, h = overlay.clientHeight;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    starsCanvas.width = Math.round(w * dpr);
+    starsCanvas.height = Math.round(h * dpr);
+    var ctx = starsCanvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = w < 640 ? 45 : 120;
+    stars = [];
+    for (var i = 0; i < n; i++) {
+      stars.push({ x: Math.random() * w, y: Math.random() * h, r: 0.5 + Math.random() * 1.2, a: 0.3 + Math.random() * 0.7, s: 0.03 + Math.random() * 0.07, p: Math.random() * Math.PI * 2 });
+    }
+    if (reduceMotion) { drawStars(ctx, w, h, false); return; }
+    var last = 0;
+    function frame(t) {
+      if (!isOpen) return;
+      starsRaf = requestAnimationFrame(frame);
+      if (t - last < 33) return;
+      last = t;
+      drawStars(ctx, w, h, true);
+    }
+    starsRaf = requestAnimationFrame(frame);
+  }
 
   function build() {
     overlay = el('div', 'tl-overlay');
@@ -141,7 +196,9 @@
     overlay.setAttribute('aria-label', 'Timeline / 时间线');
     overlay.hidden = true;
     overlay.innerHTML =
-      '<div class="tl-grid"></div><div class="tl-scan"></div>' +
+      '<div class="tl-sky"><i class="tl-aurora a1"></i><i class="tl-aurora a2"></i><i class="tl-aurora a3"></i></div>' +
+      '<canvas class="tl-stars" aria-hidden="true"></canvas>' +
+      '<div class="tl-floor"></div><div class="tl-scan"></div>' +
       '<header class="tl-bar">' +
         '<div class="tl-title"><span class="tl-name">' + both('Timeline', '时间线') + '</span><span class="tl-sub"></span></div>' +
         '<div class="tl-chips"></div>' +
@@ -151,18 +208,25 @@
           '<button class="tl-close" type="button" aria-label="Close / 关闭"><span class="tl-close-x" aria-hidden="true">\u2715</span><span class="tl-close-text">' + both('Close', '关闭') + '</span> <kbd>esc</kbd></button>' +
         '</div>' +
       '</header>' +
-      '<div class="tl-stage"><div class="tl-canvas">' +
-        '<div class="tl-rows"></div><div class="tl-ticks"></div>' +
-        '<div class="tl-axis"><i></i></div>' +
-        '<div class="tl-now"><span>' + both('now', '现在') + '</span></div>' +
-        '<div class="tl-hot"></div><div class="tl-nodes"></div>' +
-      '</div></div>' +
+      '<div class="tl-stage-wrap">' +
+        '<i class="tl-corner tl-corner-tl"></i><i class="tl-corner tl-corner-tr"></i><i class="tl-corner tl-corner-bl"></i><i class="tl-corner tl-corner-br"></i>' +
+        '<div class="tl-stage"><div class="tl-canvas">' +
+          '<div class="tl-rows"></div><div class="tl-ticks"></div>' +
+          '<div class="tl-axis"><i></i><b></b></div>' +
+          '<div class="tl-now"><span>' + both('now', '现在') + '</span></div>' +
+          '<div class="tl-hot"></div><div class="tl-cursor"><span class="tl-readout"></span></div><div class="tl-nodes"></div>' +
+        '</div></div>' +
+      '</div>' +
       '<div class="tl-drag-hint">' + both('\u2190 drag \u2192', '\u2190 左右拖动 \u2192') + '</div>' +
       '<div class="tl-card" hidden></div>';
     document.body.appendChild(overlay);
 
     stage = overlay.querySelector('.tl-stage');
     canvas = overlay.querySelector('.tl-canvas');
+    sky = overlay.querySelector('.tl-sky');
+    starsCanvas = overlay.querySelector('.tl-stars');
+    cursor = overlay.querySelector('.tl-cursor');
+    readout = overlay.querySelector('.tl-readout');
     nodesBox = overlay.querySelector('.tl-nodes');
     axis = overlay.querySelector('.tl-axis');
     nowMark = overlay.querySelector('.tl-now');
@@ -205,7 +269,7 @@
     });
 
     events.forEach(function (ev) {
-      ev.node = el(ev.url ? 'a' : 'div', 'tl-node', '<i class="tl-dot"></i>');
+      ev.node = el(ev.url ? 'a' : 'div', 'tl-node', '<i class="tl-dot" style="--bd:' + (Math.random() * 3).toFixed(2) + 's"></i>');
       ev.leader = el('i', 'tl-leader');
       ev.label = el(ev.url ? 'a' : 'div', 'tl-label',
         '<span class="tl-label-in"><span class="tl-date">' + shortDate(ev.date) + '</span>' + both(esc(ev.en), esc(ev.zh)) + '</span>');
@@ -250,6 +314,25 @@
     stage.addEventListener('click', function (e) {
       if (e.target === stage || e.target === canvas || e.target.parentNode === canvas) hideCard();
     });
+    if (!touch) {
+      // A hairline follows the pointer and reads out the date under it
+      stage.addEventListener('mousemove', function (e) {
+        var sr = stage.getBoundingClientRect();
+        var x = e.clientX - sr.left + stage.scrollLeft;
+        if (x < padL || x > W - padR) { cursor.classList.remove('is-on'); return; }
+        var d = new Date(timeAt(x));
+        readout.textContent = d.getUTCFullYear() + '.' + pad(d.getUTCMonth() + 1);
+        readout.style.transform = x > W - 90 ? 'translateX(calc(-100% - 8px))' : 'translateX(8px)';
+        cursor.style.transform = 'translateX(' + x + 'px)';
+        cursor.classList.add('is-on');
+      });
+      stage.addEventListener('mouseleave', function () { cursor.classList.remove('is-on'); });
+      // The sky drifts a little against the pointer, for depth
+      overlay.addEventListener('mousemove', function (e) {
+        var mx = e.clientX / window.innerWidth - 0.5, my = e.clientY / window.innerHeight - 0.5;
+        sky.style.transform = 'translate(' + (-mx * 26).toFixed(1) + 'px,' + (-my * 16).toFixed(1) + 'px)';
+      });
+    }
     // A touch or wheel takes over from the opening pan and retires the drag hint
     ['touchstart', 'wheel', 'pointerdown'].forEach(function (type) {
       stage.addEventListener(type, function () {
@@ -267,10 +350,22 @@
       ev.leader.classList.toggle('is-off', off);
     });
     tracks.forEach(function (t) { t.row.classList.toggle('is-off', !enabled[t.kind]); });
-    var n = events.filter(function (ev) { return enabled[ev.kind]; }).length;
+    setSub(events.filter(function (ev) { return enabled[ev.kind]; }).length);
+    layout(instant);
+  }
+
+  function setSub(n) {
     var span = yearStart + ' → ' + (yearEnd - 1);
     sub.innerHTML = both(n + ' events · ' + span, n + ' 个节点 · ' + span);
-    layout(instant);
+  }
+  function countUp(n) {
+    var started = performance.now();
+    function step(t) {
+      var p = Math.min(1, (t - started) / 1100);
+      setSub(Math.round(n * (1 - Math.pow(1 - p, 3))));
+      if (p < 1 && isOpen) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
 
   function layout(instant) {
@@ -304,6 +399,7 @@
       if (!crowded) lastTickX = yr.x;
     });
     nowMark.style.transform = 'translateX(' + xOf(now) + 'px)';
+    nowMark.style.setProperty('--ay', axisY + 'px');
 
     // Tracks mode: one row per track under the axis
     var rowTop = axisY + 50;
@@ -426,11 +522,12 @@
       yr.line.firstChild.style.animationDelay = d;
       yr.tick.firstChild.style.animationDelay = d;
     });
-    var i = 0;
+    countUp(events.filter(function (ev) { return enabled[ev.kind]; }).length);
     events.forEach(function (ev) {
       if (!enabled[ev.kind]) return;
-      var delay = 450 + Math.min(i * 60, 1500);
-      i++;
+      var u = ev.x / Math.max(W, 1);
+      // Matches the sweep line on a wide screen, or the pan's easing on a scrolling one
+      var delay = scrollable ? 500 + 2200 * (1 - Math.pow(1 - u, 1 / 3)) : 300 + u * 1500;
       var src = scrollable ? null : sourceOf(ev);
       var r = src && src.getBoundingClientRect();
       var land = delay;
@@ -470,6 +567,7 @@
 
   function showCard(ev) {
     cardFor = ev;
+    card.dataset.kind = ev.kind;
     var t = ev.track, k = kindOf(ev.kind);
     var trackName = (t.kind === 'question' || t.kind === 'project') ? ' · ' + both(esc(t.en), esc(t.zh)) : '';
     card.innerHTML =
@@ -526,6 +624,7 @@
     document.body.classList.add('tl-open');
     void overlay.offsetWidth;
     overlay.classList.add('is-open');
+    startStars();
     if (!reduceMotion) enter();
     closeBtn.focus({ preventScroll: true });
   }
@@ -540,6 +639,7 @@
     if (!isOpen) return;
     isOpen = false;
     panning = null;
+    cancelAnimationFrame(starsRaf);
     hideCard();
     overlay.classList.remove('is-open', 'is-entering');
     overlay.querySelectorAll('.tl-ghost').forEach(function (g) { g.remove(); });
@@ -558,7 +658,7 @@
   var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { if (isOpen) { hideCard(); layout(true); } }, 120);
+    resizeTimer = setTimeout(function () { if (isOpen) { hideCard(); layout(true); startStars(); } }, 120);
   });
   // Label widths change with the language, so lay the labels out again after a switch
   new MutationObserver(function () {
