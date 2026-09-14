@@ -2200,3 +2200,89 @@ body.tl-open {
     transition: none;
   }
 }
+
+/* ===========================
+   Contents list beside long pages
+   =========================== */
+/* Sits in the right margin next to the column; only screens wide enough to have that margin show it */
+.toc {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .toc {
+    position: fixed;
+    top: 120px;
+    left: calc(50% + var(--max-width) / 2 + 40px);
+    z-index: 10;
+    display: block;
+    width: min(220px, calc(50vw - var(--max-width) / 2 - 64px));
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+}
+
+.toc::-webkit-scrollbar {
+  display: none;
+}
+
+.toc-title {
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--color-border);
+}
+
+.toc a {
+  display: block;
+  margin-left: -1px;
+  padding: 4px 0 4px 12px;
+  border-left: 2px solid transparent;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.toc a:hover {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+.toc a[aria-current="true"] {
+  color: var(--color-text);
+  border-left-color: var(--color-text);
+}
+
+.toc a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.toc:lang(zh) a,
+.toc:lang(zh) .toc-title {
+  font-family: var(--font-zh);
+}
+
+/* A little room above a section heading when a contents link jumps to it */
+.post h2,
+.post h3 {
+  scroll-margin-top: 24px;
+}
+
+@media print {
+  .toc {
+    display: none;
+  }
+}
