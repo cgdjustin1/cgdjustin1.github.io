@@ -48,3 +48,5 @@ The discipline we settled on: **pre-register the acceptance criteria, archive ev
 In one month we generated more than thirty improvement ideas and admitted a handful. That ratio is the point, not the exception.
 
 That discipline is what I carried into [Topolo](/projects/topolo/), and it's why the engine there is built around gates rather than around output.
+
+<p class="note">Figures as of September 2026, self-reported. Nothing here is investment advice.</p>

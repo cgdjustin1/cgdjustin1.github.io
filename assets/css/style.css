@@ -108,6 +108,7 @@ a:hover {
   font-weight: 600;
   margin: 0;
   font-family: var(--font-mono);
+  white-space: nowrap;
 }
 
 .site-header h1 a {
@@ -117,6 +118,14 @@ a:hover {
 
 .site-header h1 a:hover {
   opacity: 0.7;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  row-gap: 6px;
 }
 
 nav a {
@@ -133,10 +142,6 @@ nav a:hover {
 nav a.active {
   color: var(--color-text);
   font-weight: 500;
-}
-
-.social-links-text {
-  display: none;
 }
 
 /* ===========================
@@ -280,47 +285,6 @@ h3 {
 }
 
 .home-see-all:hover {
-  color: var(--color-text);
-  opacity: 1;
-}
-
-.home-posts {
-  margin-top: 40px;
-}
-
-.hero-cta {
-  display: flex;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-.btn-primary {
-  display: inline-block;
-  padding: 10px 24px;
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-mono);
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover {
-  opacity: 0.8;
-  color: var(--color-bg);
-}
-
-.btn-secondary {
-  display: inline-block;
-  padding: 10px 24px;
-  color: var(--color-text-muted);
-  font-size: 14px;
-  font-weight: 500;
-  font-family: var(--font-mono);
-}
-
-.btn-secondary:hover {
   color: var(--color-text);
   opacity: 1;
 }
@@ -747,26 +711,6 @@ main section li {
 /* ===========================
    Contact Page
    =========================== */
-.contact-container {
-  text-align: left;
-  padding: 40px 20px 80px;
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.contact-container a {
-  color: var(--color-accent);
-}
-
-.social-links {
-  margin-top: 20px;
-}
-
-.social-links a {
-  margin-right: 16px;
-  font-size: 16px;
-}
-
 /* ===========================
    Footer
    =========================== */
@@ -1525,10 +1469,6 @@ body.tl-open > :not(.tl-overlay) {
   box-shadow: inset 0 0 12px color-mix(in srgb, var(--k) 18%, transparent), 0 0 10px color-mix(in srgb, var(--k) 25%, transparent);
 }
 
-.tl-chip[aria-pressed="false"] {
-  opacity: 0.55;
-}
-
 .tl-chip[aria-pressed="false"] i {
   opacity: 0.35;
   box-shadow: none;
@@ -1828,6 +1768,92 @@ body.tl-open > :not(.tl-overlay) {
 
 .tl-tick.is-future > span {
   opacity: 0.55;
+}
+
+/* "Problems I'm solving" — a plain, static panel just past "now"; deliberately unglamorous
+   next to the horizon invitation. Axis mode only; hidden in Tracks. */
+.tl-now-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.tl-now-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 190px;
+  padding: 10px 12px;
+  border: 1px solid var(--tl-glass-border);
+  border-radius: 10px;
+  background: var(--tl-panel);
+  transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.2, 1), opacity 0.3s;
+}
+
+.tl-now-panel-head {
+  font: 11px var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.tl-now-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tl-now-panel li {
+  position: relative;
+  padding-left: 13px;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-text-subtle);
+}
+
+.tl-now-panel li:first-child {
+  margin-top: 0;
+}
+
+.tl-now-panel li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 5px;
+  height: 5px;
+  background: var(--color-text-muted);
+}
+
+.tl-now-panel a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.tl-now-panel a:hover {
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+.tl-now-panel [data-i18n="zh"] {
+  font-family: var(--font-zh);
+}
+
+@keyframes tl-panel-in {
+  from { opacity: 0; }
+}
+
+.is-entering .tl-now-panel,
+.is-entering .tl-now-line {
+  animation: tl-panel-in 0.6s ease-out 1.7s both;
 }
 
 .is-entering .tl-axis > i {
@@ -2331,11 +2357,19 @@ body.tl-open > :not(.tl-overlay) {
     left: 24px;
   }
 
+  .tl-chip,
   .tl-lang,
   .tl-mode,
   .tl-close {
     min-height: 32px;
     padding: 3px 12px;
+  }
+
+  .tl-dot {
+    width: 15px;
+    height: 15px;
+    left: -7.5px;
+    top: -7.5px;
   }
 
   .tl-close {

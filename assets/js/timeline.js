@@ -132,7 +132,7 @@
 
   // ---- state ----
   var overlay, stage, canvas, nodesBox, axis, nowMark, card, hot, sub, modeBtn, closeBtn;
-  var sky, starsCanvas, cursor, readout, futureAxis, beams, horizonEl, horizonEv;
+  var sky, starsCanvas, cursor, readout, futureAxis, beams, horizonEl, horizonEv, nowPanel, nowLine;
   var built = false, isOpen = false, mode = 'axis', scrollable = false, panning = null;
   var W = 0, H = 0, padL = 48, padR = 48, axisY = 0;
   var enabled = {};
@@ -224,6 +224,7 @@
           '<div class="tl-axis"><i></i><b></b></div>' +
           '<div class="tl-now"><span>' + both('now', '现在') + '</span></div>' +
           '<div class="tl-axis-future"></div><svg class="tl-beams" aria-hidden="true"></svg>' +
+          '<div class="tl-now-line"></div><div class="tl-now-panel"></div>' +
           '<div class="tl-hot"></div><div class="tl-cursor"><span class="tl-readout"></span></div><div class="tl-nodes"></div>' +
         '</div></div>' +
       '</div>' +
@@ -239,6 +240,8 @@
     readout = overlay.querySelector('.tl-readout');
     futureAxis = overlay.querySelector('.tl-axis-future');
     beams = overlay.querySelector('.tl-beams');
+    nowLine = overlay.querySelector('.tl-now-line');
+    nowPanel = overlay.querySelector('.tl-now-panel');
     nodesBox = overlay.querySelector('.tl-nodes');
     axis = overlay.querySelector('.tl-axis');
     nowMark = overlay.querySelector('.tl-now');
@@ -327,10 +330,32 @@
         a.addEventListener('focus', function () { showCard(ev); });
         a.addEventListener('blur', hideCard);
       });
+      if (!ev.url) {
+        // Nothing to link to (e.g. a life milestone): still reachable by keyboard and screen readers
+        ev.node.tabIndex = 0;
+        ev.node.setAttribute('role', 'button');
+        ev.node.setAttribute('aria-label', ev.en);
+        ev.node.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showCard(ev); }
+        });
+        ev.label.setAttribute('aria-hidden', 'true');
+      }
       nodesBox.appendChild(ev.leader);
       nodesBox.appendChild(ev.label);
       nodesBox.appendChild(ev.node);
     });
+
+    var nowItems = data.now_items || [];
+    if (nowItems.length) {
+      nowPanel.innerHTML = '<div class="tl-now-panel-head">' + both("Problems I'm solving", '在解决的问题') + '</div><ul>' +
+        nowItems.map(function (it) {
+          var body = both(esc(it.en), esc(it.zh));
+          return '<li>' + (it.url ? '<a href="' + it.url + '">' + body + '</a>' : body) + '</li>';
+        }).join('') + '</ul>';
+    } else {
+      nowPanel.hidden = true;
+      nowLine.hidden = true;
+    }
 
     modeBtn.addEventListener('click', function () {
       mode = mode === 'axis' ? 'tracks' : 'axis';
@@ -350,6 +375,11 @@
     });
     stage.addEventListener('click', function (e) {
       if (e.target === stage || e.target === canvas || e.target.parentNode === canvas) hideCard();
+    });
+    // Focusing a chip can trigger the browser's own scroll-into-view on the overlay itself,
+    // sliding the header out of view; snap it back since the overlay is never meant to scroll.
+    overlay.addEventListener('focusin', function () {
+      if (overlay.scrollLeft) overlay.scrollLeft = 0;
     });
     if (!touch) {
       // A hairline follows the pointer and reads out the date under it
@@ -430,6 +460,17 @@
     futureAxis.style.left = xNow + 'px';
     futureAxis.style.width = Math.max(0, xEnd - xNow) + 'px';
     futureAxis.style.transform = 'translateY(' + axisY + 'px)';
+    if (!nowPanel.hidden) {
+      var pw = nowPanel.offsetWidth || 190, ph = nowPanel.offsetHeight || 70;
+      var npY = mobile ? 40 : 56;
+      var npX = clamp(xNow + 24, padL, W - padR - pw);
+      nowPanel.style.transform = 'translate(' + npX + 'px,' + npY + 'px)';
+      nowLine.style.left = (npX + 14) + 'px';
+      nowLine.style.top = (npY + ph) + 'px';
+      nowLine.style.height = Math.max(0, axisY - (npY + ph)) + 'px';
+      nowPanel.classList.toggle('is-hidden', !axisMode);
+      nowLine.classList.toggle('is-hidden', !axisMode);
+    }
     var lastTickX = -Infinity;
     years.forEach(function (yr) {
       yr.x = xOf(yr.time);

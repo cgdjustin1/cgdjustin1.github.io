@@ -16,6 +16,18 @@ horizon:
   desc_zh: 这些问题我还在解。如果你也在想，欢迎写邮件约个时间聊聊。
   url: mailto:guandachenjustin@gmail.com
 
+# A plain, unglowing list of concrete problems in progress right now (distinct from the open
+# Questions, which are more exploratory) — shown just past "now" on the timeline.
+now_items:
+  - en: AutoQuant
+    zh: AutoQuant
+    url: /questions/#autoquant
+  - en: An incentive system for the post-AI era
+    zh: 后 AI 时代的激励体系
+    url: /questions/#incentives
+  - en: Quant trading for everyone
+    zh: 全民量化
+
 tracks:
   - id: life
     kind: life
@@ -109,7 +121,7 @@ tracks:
     open: true
     events:
       - date: "2023"
-        en: Started asking what our generation should do
+        en: Asked what our generation should do
         zh: 开始想我们这代人该做什么
 
   - id: production
@@ -121,7 +133,7 @@ tracks:
     open: true
     events:
       - date: "2026"
-        en: Started asking why companies still aren't using AI
+        en: Asked why companies still aren't using AI
         zh: 开始想为什么企业还没真正用上 AI
 
   - id: incentives
